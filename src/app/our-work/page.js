@@ -1,9 +1,13 @@
+import React from "react";
 
 
-export default function OurWorkPage() {
+function Ourwork() {
   return (
-    <main>
-      <h1>Our Work</h1>
-    </main>
-  )
+   <>
+      
+         <div>Our work</div>
+         </>
+  );
 }
+
+export default Ourwork;
