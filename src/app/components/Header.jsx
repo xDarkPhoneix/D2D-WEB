@@ -1,10 +1,17 @@
-"use client"
-import Link from 'next/link';
-import React, { useState } from 'react';
+"use client";
 
+<<<<<<< HEAD
 function Header() {
 
   const [isOpen, setIsOpen] = useState(false)
+=======
+import Link from "next/link";
+import { useState } from "react";
+
+function Header() {
+  const [isOpen, setIsOpen] = useState(false);
+
+>>>>>>> 819a15cee2e67b7ad9fdd07420fc5d0d70c7d020
   return (
     <nav className="fixed top-0 w-full bg-background/95 backdrop-blur-sm z-50 border-b border-border">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -16,15 +23,22 @@ function Header() {
 
           {/* Desktop Navigation */}
           <div className="hidden md:flex gap-8 items-center">
-            <Link href="/about" className="text-sm font-medium hover:text-primary transition-colors">
-              ABOUT
+
+            <Link href="/about" className="group flex flex-col items-center text-sm font-medium hover:text-primary">
+              <span className="text-lg opacity-0 group-hover:opacity-100 transition-all">🧠</span>
+              <span>ABOUT</span>
             </Link>
-            <Link href="/our-work" className="text-sm font-medium hover:text-primary transition-colors">
-              OUR-WORK
+
+            <Link href="/our-work" className="group flex flex-col items-center text-sm font-medium hover:text-primary">
+              <span className="text-lg opacity-0 group-hover:opacity-100 transition-all">✏️</span>
+              <span>OUR WORK</span>
             </Link>
-            <Link href="/services" className="text-sm font-medium hover:text-primary transition-colors">
-              SERVICES
+
+            <Link href="/services" className="group flex flex-col items-center text-sm font-medium hover:text-primary">
+              <span className="text-lg opacity-0 group-hover:opacity-100 transition-all">🛠️</span>
+              <span>SERVICES</span>
             </Link>
+<<<<<<< HEAD
             <Link href="/privacy-policy" className="text-sm font-medium hover:text-primary transition-colors">
               PRIVACY POLICY
             </Link>
@@ -33,58 +47,47 @@ function Header() {
             </Link>
             <Link href="/client" className="text-sm font-medium hover:text-primary transition-colors">
               CLIENTS
+=======
+
+            <Link href="/awards" className="group flex flex-col items-center text-sm font-medium hover:text-primary">
+              <span className="text-lg opacity-0 group-hover:opacity-100 transition-all">🏆</span>
+              <span>AWARDS</span>
             </Link>
-            <Link href="/careers" className="text-sm font-medium hover:text-primary transition-colors">
-              CAREERS
+
+            <Link href="/client" className="group flex flex-col items-center text-sm font-medium hover:text-primary">
+              <span className="text-lg opacity-0 group-hover:opacity-100 transition-all">🧑‍💼</span>
+              <span>CLIENTS</span>
             </Link>
-            <Link
-              href="/contact"
-              className="text-sm font-medium hover:text-primary transition-colors"
-            >
-              CONTACT
+
+            <Link href="/careers" className="group flex flex-col items-center text-sm font-medium hover:text-primary">
+              <span className="text-lg opacity-0 group-hover:opacity-100 transition-all">🚀</span>
+              <span>CAREERS</span>
+>>>>>>> 819a15cee2e67b7ad9fdd07420fc5d0d70c7d020
             </Link>
+
+            <Link href="/contact" className="group flex flex-col items-center text-sm font-medium hover:text-primary">
+              <span className="text-lg opacity-0 group-hover:opacity-100 transition-all">📩</span>
+              <span>CONTACT</span>
+            </Link>
+
           </div>
 
           {/* Mobile Menu Button */}
-          <button className="md:hidden p-2" onClick={() => setIsOpen(!isOpen)} aria-label="Toggle menu">
-            <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                strokeWidth={2}
-                d={isOpen ? "M6 18L18 6M6 6l12 12" : "M4 6h16M4 12h16M4 18h16"}
-              />
-            </svg>
+          <button className="md:hidden p-2" onClick={() => setIsOpen(!isOpen)}>
+            ☰
           </button>
         </div>
-
-        {/* Mobile Navigation */}
-        {isOpen && (
-          <div className="md:hidden pb-4 space-y-4">
-            <Link href="/" className="block text-sm font-medium hover:text-primary transition-colors">
-              WORK
-            </Link>
-            <Link href="/about" className="block text-sm font-medium hover:text-primary transition-colors">
-              ABOUT
-            </Link>
-            <Link href="/services" className="block text-sm font-medium hover:text-primary transition-colors">
-              SERVICES
-            </Link>
-            <Link href="/careers" className="block text-sm font-medium hover:text-primary transition-colors">
-              CAREERS
-            </Link>
-            <Link
-              href="/contact"
-              className="block text-sm font-medium px-6 py-2 bg-primary text-primary-foreground rounded-full hover:opacity-90 transition-opacity w-fit"
-            >
-              CONTACT
-            </Link>
-          </div>
-        )}
       </div>
     </nav>
+<<<<<<< HEAD
   )
 }
 
 export default Header
   ;
+=======
+  );
+}
+
+export default Header;
+>>>>>>> 819a15cee2e67b7ad9fdd07420fc5d0d70c7d020
