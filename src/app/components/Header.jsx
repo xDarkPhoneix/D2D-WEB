@@ -2,11 +2,11 @@
 import Link from 'next/link';
 import React, { useState } from 'react';
 
-function  Header() {
+function Header() {
 
-     const [isOpen, setIsOpen] = useState(false)
-    return (
-      <nav className="fixed top-0 w-full bg-background/95 backdrop-blur-sm z-50 border-b border-border">
+  const [isOpen, setIsOpen] = useState(false)
+  return (
+    <nav className="fixed top-0 w-full bg-background/95 backdrop-blur-sm z-50 border-b border-border">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between items-center h-20">
           {/* Logo */}
@@ -25,13 +25,13 @@ function  Header() {
             <Link href="/services" className="text-sm font-medium hover:text-primary transition-colors">
               SERVICES
             </Link>
-             <Link href="/privacy-policy" className="text-sm font-medium hover:text-primary transition-colors">
+            <Link href="/privacy-policy" className="text-sm font-medium hover:text-primary transition-colors">
               PRIVACY POLICY
             </Link>
-             <Link href="/awards" className="text-sm font-medium hover:text-primary transition-colors">
-              AWADRS
+            <Link href="/awards" className="text-sm font-medium hover:text-primary transition-colors">
+              AWARDS
             </Link>
-             <Link href="/client" className="text-sm font-medium hover:text-primary transition-colors">
+            <Link href="/client" className="text-sm font-medium hover:text-primary transition-colors">
               CLIENTS
             </Link>
             <Link href="/careers" className="text-sm font-medium hover:text-primary transition-colors">
@@ -83,8 +83,8 @@ function  Header() {
         )}
       </div>
     </nav>
-    )
+  )
 }
 
 export default Header
-;
+  ;
