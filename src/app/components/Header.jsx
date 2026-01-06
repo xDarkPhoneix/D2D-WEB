@@ -25,8 +25,8 @@ function  Header() {
             <Link href="/services" className="text-sm font-medium hover:text-primary transition-colors">
               SERVICES
             </Link>
-             <Link href="/our-team" className="text-sm font-medium hover:text-primary transition-colors">
-              OUT-TEAM
+             <Link href="/privacy-policy" className="text-sm font-medium hover:text-primary transition-colors">
+              PRIVACY POLICY
             </Link>
              <Link href="/awards" className="text-sm font-medium hover:text-primary transition-colors">
               AWADRS

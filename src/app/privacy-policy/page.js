@@ -1,7 +1,7 @@
 import React from "react";
 
 
-function Ourteam() {
+function PrivacyPolicy() {
   return (
     <>
       
@@ -10,4 +10,4 @@ function Ourteam() {
   );
 }
 
-export default Ourteam;
+export default PrivacyPolicy;
