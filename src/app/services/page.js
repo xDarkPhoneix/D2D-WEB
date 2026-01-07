@@ -4,97 +4,138 @@ import React from "react";
 function Services() {
   const services = [
     {
-      title: "Social Media Creative Strategy",
+      title: "Narrative Architecture",
       description:
-        "We craft platform-first creative strategies that spark conversations, build communities, and drive meaningful engagement for your brand.",
-      image:
-        "https://socialpanga.com/wp-content/uploads/2021/04/01-service-social-media-creative-srtategy.png",
+        "We don’t just build brands; we craft Narrative Architectures that give your company a soul and a story. We transform you from a generic business into an industry leader.",
+      image: "/services1.jpeg",
     },
     {
-      title: "Branding & Marketing Communication",
+      title: "SEO Mastery",
       description:
-        "From brand identity to storytelling, we build a voice that is bold, consistent, and emotionally resonant across all touchpoints.",
-      image:
-        "https://socialpanga.com/wp-content/uploads/2021/04/02-service-media-planning-buying.png",
+        "Technical and content optimization to ensure your brand owns the first page of Google.",
+      image: "/services2.jpeg",
     },
     {
-      title: "Media Planning &  Buying",
+      title: "Content Production",
       description:
-        "Data-backed media strategies that ensure the right message reaches the right audience at the right time — every time.",
-      image:
-        "https://socialpanga.com/wp-content/uploads/2021/04/03-service-analytics-seo.png",
+        "A high-volume Content Engine that keeps your brand relevant and top-of-mind daily.",
+      image: "/services3.jpeg",
     },
     {
-      title: "Analytics & SEO",
+      title: "AI Creative Studio",
       description:
-        "We turn numbers into insights, helping brands improve visibility, performance, and long-term growth through smart analytics.",
-      image:
-        "https://socialpanga.com/wp-content/uploads/2021/04/06-service-influencer-management.png",
+        "Leveraging AI to produce hyper-personalized ads faster and smarter than traditional methods.",
+      image: "/services4.jpeg",
+    },
+    {
+      title: "Bespoke Web Development",
+      description:
+        "High-speed, conversion-optimized websites that turn visitors into paying customers.",
+      image: "/services5.jpeg",
+    },
+    {
+      title: "Business Automation",
+      description:
+        "Backend systems that automate your leads, follow-ups, and sales processes.",
+      image: "/services6.jpeg",
+    },
+    {
+      title: "Strategic Master Planning",
+      description:
+        "Every design and post we create is part of a larger Master Plan designed to hit your specific business milestones.",
+      image: "/services8.jpeg",
+    },
+    {
+      title: "Cinematic Video Production",
+      description:
+        "High-fidelity cinematic content that positions you as a top-tier authority in your industry.",
+      image: "/services9.jpeg",
+    },
+    {
+      title: "Paid Ad Campaigns",
+      description:
+        "ROI-focused advertising on Meta, Google, and LinkedIn designed for maximum impact.",
+      image: "/services10.jpeg",
     },
   ];
 
   return (
-    <>
-      <section className="pt-24 pb-16 bg-white text-black">
-        {/* Header / Hero Section */}
-        <div className="px-6 md:px-12 lg:px-20 mb-16">
-          <div className="max-w-7xl mx-auto flex flex-col md:flex-row items-center gap-12">
-            {/* LEFT: Text Content */}
-            <div className="md:w-1/2 text-left">
-              <h1 className="text-4xl md:text-6xl font-bold mb-6">
-                 <div className="flex gap-2">
-                <p className="mb-2 md:mb-6">Our</p>
-                <p>Services</p>
-                 </div>
-              </h1>
-            </div>
-            {/* RIGHT: Image */}
-            <div className="md:w-1/2 flex justify-center md:justify-end">
-              <p className="text-lg md:text-xl text-gray-600">
-                We help businesses reach their full potential by creating a
-                brand identity that is authentic and reflective of them. Every
-                brand has unique challenges — and we solve them with
-                power-packed strategies!
-              </p>
-            </div>
+    <section className="pt-28 pb-24">
+      {/* HERO */}
+      <div className="px-6 md:px-12 lg:px-20 mb-24">
+        <div className="max-w-7xl mx-auto flex flex-col md:flex-row gap-12 items-center">
+          <div className="md:w-1/2">
+            <h1 className="text-4xl md:text-6xl font-extrabold tracking-tight">
+              Our <span className="text-[#F8D200]">Services</span>
+            </h1>
+          </div>
+
+          <div className="md:w-1/2">
+            <p className="text-lg md:text-xl  leading-relaxed">
+              We help businesses dominate their space with precision-crafted
+              strategies, premium execution, and systems built for scale.
+            </p>
           </div>
         </div>
+      </div>
 
-        {/* SERVICES SECTIONS */}
-        <div className="space-y-28">
-          {services.map((service, index) => (
-            <div key={service.title} className="px-6 md:px-12 lg:px-20">
-              <div
-                className={`max-w-7xl mx-auto flex flex-col md:flex-row items-center gap-16 ${
-                  index % 2 !== 0 ? "md:flex-row-reverse" : ""
-                }`}
-              >
-                {/* TEXT */}
-                <div className="md:w-1/2">
-                  <h2 className="text-2xl md:text-4xl font-extrabold mb-6">
-                    {service.title}
-                  </h2>
-                  <p className="text-lg text-muted-foreground leading-relaxed">
-                    {service.description}
-                  </p>
-                </div>
+      {/* SERVICES */}
+      <div className="space-y-32">
+        {services.map((service, index) => (
+          <div key={service.title} className="px-6 md:px-12 lg:px-20">
+            <div
+              className={`max-w-7xl mx-auto flex flex-col md:flex-row items-center gap-20 ${
+                index % 2 !== 0 ? "md:flex-row-reverse" : ""
+              }`}
+            >
+              {/* TEXT */}
+              <div className="md:w-1/2">
+                <h2 className="text-3xl md:text-4xl font-bold mb-6">
+                  <span className="text-[#F8D200]">/</span> {service.title}
+                </h2>
+                <p className="text-lg leading-relaxed">
+                  {service.description}
+                </p>
+              </div>
 
-                {/* IMAGE */}
-                <div className="md:w-1/2 flex justify-center">
+              {/* IMAGE */}
+              <div className="md:w-1/2 flex justify-center">
+                <div
+                  className="
+                    relative
+                    group
+                    rounded-3xl
+                    overflow-hidden
+                    transition-all
+                    duration-500
+                    md:hover:-translate-y-3
+                    md:hover:shadow-[0_40px_80px_-20px_rgba(248,210,0,0.35)]
+                  "
+                >
                   <Image
                     src={service.image}
                     alt={service.title}
-                    width={420}
-                    height={420}
-                    className="w-full max-w-md"
+                    width={480}
+                    height={480}
+                    className="
+                      w-full
+                      max-w-md
+                      rounded-3xl
+                      transition-transform
+                      duration-700
+                      md:group-hover:scale-105
+                    "
                   />
+
+                  {/* overlay */}
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/40 to-transparent opacity-0 md:group-hover:opacity-100 transition" />
                 </div>
               </div>
             </div>
-          ))}
-        </div>
-      </section>
-    </>
+          </div>
+        ))}
+      </div>
+    </section>
   );
 }
 

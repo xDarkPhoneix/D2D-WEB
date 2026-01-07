@@ -40,7 +40,7 @@ export default function HomePage() {
       description:
         "Position your brand for maximum impact. We craft strategies that resonate with your audience and drive loyalty.",
       image:
-        "https://images.pexels.com/photos/3183150/pexels-photo-3183150.jpeg?auto=compress&cs=tinysrgb&w=800",
+        "./what-we-do-1.jpeg",
       icon: Target,
     },
     {
@@ -191,6 +191,16 @@ export default function HomePage() {
         </div>
       </section>
 
+      {/* ================= VALUE ================= */}
+      <section className="py-24 bg-white text-center px-6">
+        <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold mb-6">
+          We Don’t Do Safe Marketing.
+        </h2>
+        <p className="max-w-3xl mx-auto text-lg sm:text-xl text-gray-700">
+          We build brands that people feel, not just notice.
+        </p>
+      </section>
+
       {/* ================= CARDS ================= */}
       <section className="bg-white py-24">
         <div className="flex flex-col md:flex-row gap-16 justify-center px-6">
@@ -220,15 +230,7 @@ export default function HomePage() {
       {/* SPACER */}
       <div className="h-32 bg-white" />
 
-      {/* ================= VALUE ================= */}
-      <section className="py-24 bg-white text-center px-6">
-        <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold mb-6">
-          We Don’t Do Safe Marketing.
-        </h2>
-        <p className="max-w-3xl mx-auto text-lg sm:text-xl text-gray-700">
-          We build brands that people feel, not just notice.
-        </p>
-      </section>
+      
 
       
       {/* ================= SERVICES ================= */}
