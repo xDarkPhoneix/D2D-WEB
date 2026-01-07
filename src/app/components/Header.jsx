@@ -4,7 +4,6 @@ import Link from "next/link";
 import { useState } from "react";
 
 function Header() {
-  const [isOpen, setIsOpen] = useState(false);
 
   return (
     <nav className="fixed top-0 w-full bg-background/95 backdrop-blur-sm z-50 border-b border-border">
@@ -34,12 +33,11 @@ function Header() {
             </Link>
 
             <Link href="/awards" className="group flex flex-col items-center text-sm font-medium hover:text-primary">
-              <span className="text-lg opacity-0 group-hover:opacity-100 transition-all">🏆</span>
+              <span className="text-lg opacity-0 group-hover:opacity-100 transition-all">✏️</span>
               <span>AWARDS</span>
             </Link>
-
             <Link href="/client" className="group flex flex-col items-center text-sm font-medium hover:text-primary">
-              <span className="text-lg opacity-0 group-hover:opacity-100 transition-all">🧑‍💼</span>
+              <span className="text-lg opacity-0 group-hover:opacity-100 transition-all">✏️</span>
               <span>CLIENTS</span>
             </Link>
 
