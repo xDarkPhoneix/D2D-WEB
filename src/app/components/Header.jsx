@@ -5,7 +5,6 @@ import { useState } from "react";
 
 function Header() {
 
-  const [isOpen, setIsOpen] = useState(false)
   return (
     <nav className="fixed top-0 w-full bg-background/95 backdrop-blur-sm z-50 border-b border-border">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -32,10 +31,7 @@ function Header() {
               <span className="text-lg opacity-0 group-hover:opacity-100 transition-all">🛠️</span>
               <span>SERVICES</span>
             </Link>
-           <Link href="/privacy-policy" className="group flex flex-col items-center text-sm font-medium hover:text-primary">
-              <span className="text-lg opacity-0 group-hover:opacity-100 transition-all">✏️</span>
-              <span>PRIVACY POLICY</span>
-            </Link>
+
             <Link href="/awards" className="group flex flex-col items-center text-sm font-medium hover:text-primary">
               <span className="text-lg opacity-0 group-hover:opacity-100 transition-all">✏️</span>
               <span>AWARDS</span>
@@ -44,9 +40,15 @@ function Header() {
               <span className="text-lg opacity-0 group-hover:opacity-100 transition-all">✏️</span>
               <span>CLIENTS</span>
             </Link>
-             <Link href="/careers" className="group flex flex-col items-center text-sm font-medium hover:text-primary">
-              <span className="text-lg opacity-0 group-hover:opacity-100 transition-all">📩</span>
-              <span>CARRERS</span>
+
+            <Link href="/careers" className="group flex flex-col items-center text-sm font-medium hover:text-primary">
+              <span className="text-lg opacity-0 group-hover:opacity-100 transition-all">🚀</span>
+              <span>CAREERS</span>
+            </Link>
+
+            <Link href="/privacy-policy" className="group flex flex-col items-center text-sm font-medium hover:text-primary">
+              <span className="text-lg opacity-0 group-hover:opacity-100 transition-all">🔒</span>
+              <span>PRIVACY POLICY</span>
             </Link>
 
             <Link href="/contact" className="group flex flex-col items-center text-sm font-medium hover:text-primary">
@@ -63,8 +65,7 @@ function Header() {
         </div>
       </div>
     </nav>
-  )
+  );
 }
 
-export default Header
-;
+export default Header;

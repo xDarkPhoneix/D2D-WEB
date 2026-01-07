@@ -15,27 +15,37 @@ const brands = [
   { name: "EDII", sub: "Ahmedabad", logo: "/Client/Screenshot 2026-01-06 220849.png" },
   { name: "TiE BANGALORE", sub: "Accelerating Growth Together", logo: "/Client/Screenshot 2026-01-06 220856.png" },
   { name: "Raj Fresh", sub: "Milk & Milk Products", logo: "/Client/Screenshot 2026-01-06 220904.png" },
-  { name: "CrAdLE", sub: "Mentor • Nurture • Grow", logo: "/Client/Screenshot 2026-01-06 220911.png" },
+  { name: "CrAdLE", sub: "Mentor • Nurture • Grow", logo: "/Client/cradle_updated.png" },
   { name: "BEVARC", sub: "E-Commerce & Construction", logo: "/Client/Screenshot 2026-01-06 220919.png" },
   { name: "Aspire", sub: "Harvard Business School", logo: "/Client/Screenshot 2026-01-06 220925.png" },
   { name: "Snowball", sub: "IceCream", logo: "/Client/Screenshot 2026-01-06 220931.png" },
-  { name: "Delaso", sub: "Enjoy Delicious Moments", logo: "/Client/Screenshot 2026-01-06 220937.png" }
+  { name: "Delaso", sub: "Enjoy Delicious Moments", logo: "/Client/delaso_updated.png" }
 ];
 
 function ClientPage() {
   return (
     <div className="min-h-screen bg-[#8B0000] text-white">
       {/* Header Section */}
-      <div className="bg-white py-4 px-4 overflow-x-auto">
+      <div className="bg-white py-8 px-4 overflow-x-auto">
         <div className="max-w-7xl mx-auto flex flex-col items-center">
-          <p className="text-red-800 text-xs font-bold tracking-widest mb-2 text-center uppercase">
+          <p className="text-[#8B0000] text-sm md:text-base font-bold tracking-widest mb-6 text-center uppercase">
             D2D YouthStory Media Pvt. Ltd. Supported By:
           </p>
-          <div className="flex flex-wrap justify-center gap-8 items-center opacity-80 grayscale hover:grayscale-0 transition-all duration-500">
-            {supportedBy.map((partner, index) => (
-              <span key={index} className="text-gray-600 font-bold text-sm sm:text-base border border-gray-200 px-3 py-1 rounded-md shadow-sm">
-                {partner}
-              </span>
+          <div className="flex flex-wrap justify-center gap-8 md:gap-12 items-center transition-all duration-500">
+            {[
+              { name: "Microsoft for Startups", src: "/supported-by/microsoft.png" },
+              { name: "Startup India", src: "/supported-by/startup-india.png" },
+              { name: "MSME", src: "/supported-by/msme.png" },
+              { name: "Startup Bihar", src: "/supported-by/startup-bihar.png" },
+              { name: "DPIIT", src: "/supported-by/dpiit.png" },
+              { name: "Startup Bihar Logo", src: "/supported-by/startup-bihar-logo.png" }
+            ].map((partner, index) => (
+              <img
+                key={index}
+                src={partner.src}
+                alt={partner.name}
+                className="h-12 md:h-16 object-contain"
+              />
             ))}
           </div>
         </div>
@@ -61,13 +71,7 @@ function ClientPage() {
         </h1>
 
         {/* Reference Image */}
-        <div className="flex justify-center mb-16">
-          <img
-            src="/images/clients-reference.png"
-            alt="Brands We Worked With"
-            className="max-w-full h-auto rounded-lg shadow-2xl opacity-90 hover:opacity-100 transition-opacity"
-          />
-        </div>
+
 
         {/* Brands Grid */}
         <div className="bg-white rounded-xl p-8 md:p-12 shadow-2xl">
