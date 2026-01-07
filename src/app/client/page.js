@@ -15,11 +15,11 @@ const brands = [
   { name: "EDII", sub: "Ahmedabad", logo: "/Client/Screenshot 2026-01-06 220849.png" },
   { name: "TiE BANGALORE", sub: "Accelerating Growth Together", logo: "/Client/Screenshot 2026-01-06 220856.png" },
   { name: "Raj Fresh", sub: "Milk & Milk Products", logo: "/Client/Screenshot 2026-01-06 220904.png" },
-  { name: "CrAdLE", sub: "Mentor • Nurture • Grow", logo: "/Client/Screenshot 2026-01-06 220911.png" },
+  { name: "CrAdLE", sub: "Mentor • Nurture • Grow", logo: "/Client/cradle_updated.png" },
   { name: "BEVARC", sub: "E-Commerce & Construction", logo: "/Client/Screenshot 2026-01-06 220919.png" },
   { name: "Aspire", sub: "Harvard Business School", logo: "/Client/Screenshot 2026-01-06 220925.png" },
   { name: "Snowball", sub: "IceCream", logo: "/Client/Screenshot 2026-01-06 220931.png" },
-  { name: "Delaso", sub: "Enjoy Delicious Moments", logo: "/Client/Screenshot 2026-01-06 220937.png" }
+  { name: "Delaso", sub: "Enjoy Delicious Moments", logo: "/Client/delaso_updated.png" }
 ];
 
 function ClientPage() {
@@ -61,13 +61,7 @@ function ClientPage() {
         </h1>
 
         {/* Reference Image */}
-        <div className="flex justify-center mb-16">
-          <img
-            src="/images/clients-reference.png"
-            alt="Brands We Worked With"
-            className="max-w-full h-auto rounded-lg shadow-2xl opacity-90 hover:opacity-100 transition-opacity"
-          />
-        </div>
+
 
         {/* Brands Grid */}
         <div className="bg-white rounded-xl p-8 md:p-12 shadow-2xl">
