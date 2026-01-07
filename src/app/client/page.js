@@ -26,16 +26,26 @@ function ClientPage() {
   return (
     <div className="min-h-screen bg-[#8B0000] text-white">
       {/* Header Section */}
-      <div className="bg-white py-4 px-4 overflow-x-auto">
+      <div className="bg-white py-8 px-4 overflow-x-auto">
         <div className="max-w-7xl mx-auto flex flex-col items-center">
-          <p className="text-red-800 text-xs font-bold tracking-widest mb-2 text-center uppercase">
+          <p className="text-[#8B0000] text-sm md:text-base font-bold tracking-widest mb-6 text-center uppercase">
             D2D YouthStory Media Pvt. Ltd. Supported By:
           </p>
-          <div className="flex flex-wrap justify-center gap-8 items-center opacity-80 grayscale hover:grayscale-0 transition-all duration-500">
-            {supportedBy.map((partner, index) => (
-              <span key={index} className="text-gray-600 font-bold text-sm sm:text-base border border-gray-200 px-3 py-1 rounded-md shadow-sm">
-                {partner}
-              </span>
+          <div className="flex flex-wrap justify-center gap-8 md:gap-12 items-center transition-all duration-500">
+            {[
+              { name: "Microsoft for Startups", src: "/supported-by/microsoft.png" },
+              { name: "Startup India", src: "/supported-by/startup-india.png" },
+              { name: "MSME", src: "/supported-by/msme.png" },
+              { name: "Startup Bihar", src: "/supported-by/startup-bihar.png" },
+              { name: "DPIIT", src: "/supported-by/dpiit.png" },
+              { name: "Startup Bihar Logo", src: "/supported-by/startup-bihar-logo.png" }
+            ].map((partner, index) => (
+              <img
+                key={index}
+                src={partner.src}
+                alt={partner.name}
+                className="h-12 md:h-16 object-contain"
+              />
             ))}
           </div>
         </div>
