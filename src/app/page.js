@@ -17,13 +17,13 @@ export default function HomePage() {
     {
       title: "Looking to become the next big name everyone’s talking about",
       image:
-        "https://socialpanga.com/wp-content/uploads/2021/04/infoxbox-ico1.png",
+        "/Avatar1.jpeg",
       bg: "bg-[#c32126]", // red
     },
     {
       title: "This is the main content",
       image:
-        "https://socialpanga.com/wp-content/uploads/2021/04/infoxbox-ico2.png",
+        "./AVA.jpeg",
       bg: "bg-[#1f7ae0]", // blue
     },
     {

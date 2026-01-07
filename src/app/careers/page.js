@@ -7,22 +7,22 @@ function Careers() {
 
   const items = [
     {
-      title: "CREATE",
+      title: "WHY",
       description:
         "We believe creativity is a mindset. Here, ideas are encouraged, nurtured, and transformed into powerful brand stories.",
     },
     {
-      title: "COLLABORATE",
+      title: "WORK",
       description:
         "Work with strategists, designers, creators, and thinkers who believe in growing together and learning every day.",
     },
     {
-      title: "CHALLENGE",
+      title: "AT",
       description:
         "We push boundaries, question the obvious, and constantly challenge ourselves to do better work.",
     },
     {
-      title: "CELEBRATE",
+      title: "D2D",
       description:
         "From big wins to small milestones, we celebrate effort, growth, and individuality.",
     },
