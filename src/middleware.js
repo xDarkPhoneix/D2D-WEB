@@ -3,15 +3,16 @@ import { NextResponse } from "next/server";
 
 export async function middleware(req) {
   const token = await getToken({ req });
- 
-  
-  
+
+
+
   const pathname = req.nextUrl.pathname;
-  
-  
+
+
 
   // Not logged in → redirect to login
-  if (!token && pathname.startsWith("/dashboard")) {
+  // Exception: allow access to /dashboard/userdashboard without authentication
+  if (!token && pathname.startsWith("/dashboard") && !pathname.startsWith("/dashboard/userdashboard")) {
     return NextResponse.redirect(new URL("/login", req.url));
   }
 
