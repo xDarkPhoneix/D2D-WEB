@@ -15,21 +15,24 @@ export default function HomePage() {
 
   const cards = [
     {
-      title: "Looking to become the next big name everyone’s talking about",
-      image:
-        "/Avatar1.jpeg",
+      title:
+        "Turn your brand into the name everyone’s talking about.",
+      line1:"Visibility, trust, and conversions that actually work..",
+      image: "/AA21.png",
       bg: "bg-[#c32126]", // red
     },
     {
-      title: "This is the main content",
-      image:
-        "./AVA.jpeg",
+      title:
+        "Don’t miss the chance to do your best work ever. ",
+          line1:"Join the bold minds building D2D Digital Studio.",
+      image: "./hma2.png",
       bg: "bg-[#1f7ae0]", // blue
     },
     {
-      title: "This is the main content",
-      image:
-        "https://socialpanga.com/wp-content/uploads/2021/04/infoxbox-ico3.png",
+      title:
+        "Love digital storytelling and growth marketing? ",
+          line1:"Subscribe for insights, trends, and strategies from our studio.",
+      image: "/hh.jpeg",
       bg: "bg-[#0f9d58]", // green
     },
   ];
@@ -39,8 +42,7 @@ export default function HomePage() {
       title: "Brand Strategy",
       description:
         "Position your brand for maximum impact. We craft strategies that resonate with your audience and drive loyalty.",
-      image:
-        "./what-we-do-1.jpeg",
+      image: "./what-we-do-1.jpeg",
       icon: Target,
     },
     {
@@ -48,7 +50,7 @@ export default function HomePage() {
       description:
         "Data-driven campaigns that deliver ROI. From paid ads to SEO, we maximize every dollar spent.",
       image:
-        "https://images.pexels.com/photos/3184291/pexels-photo-3184291.jpeg?auto=compress&cs=tinysrgb&w=800",
+        "./hp1.jpeg",
       icon: TrendingUp,
     },
     {
@@ -56,7 +58,7 @@ export default function HomePage() {
       description:
         "Content that stops the scroll. Video, design, and copy that captures attention and converts.",
       image:
-        "https://images.pexels.com/photos/3184465/pexels-photo-3184465.jpeg?auto=compress&cs=tinysrgb&w=800",
+        "./hp2.jpeg",
       icon: Zap,
     },
     {
@@ -64,7 +66,7 @@ export default function HomePage() {
       description:
         "Build communities that love your brand. Authentic engagement that drives real business outcomes.",
       image:
-        "https://images.pexels.com/photos/3184296/pexels-photo-3184296.jpeg?auto=compress&cs=tinysrgb&w=800",
+        "./hp3.jpeg",
       icon: Users,
     },
     {
@@ -72,7 +74,7 @@ export default function HomePage() {
       description:
         "Scale faster with proven frameworks. We optimize every stage of your customer journey.",
       image:
-        "https://images.pexels.com/photos/3184339/pexels-photo-3184339.jpeg?auto=compress&cs=tinysrgb&w=800",
+        "./hp4.jpeg",
       icon: TrendingUp,
     },
     {
@@ -80,7 +82,7 @@ export default function HomePage() {
       description:
         "Make informed decisions with deep data analysis. Track, measure, and optimize everything.",
       image:
-        "https://images.pexels.com/photos/3182773/pexels-photo-3182773.jpeg?auto=compress&cs=tinysrgb&w=800",
+        "./hp5.jpeg",
       icon: Target,
     },
   ];
@@ -202,6 +204,7 @@ export default function HomePage() {
       </section>
 
       {/* ================= CARDS ================= */}
+
       <section className="bg-white py-24">
         <div className="flex flex-col md:flex-row gap-16 justify-center px-6">
           {cards.map((card, index) => (
@@ -211,15 +214,28 @@ export default function HomePage() {
         ${card.bg} rounded-2xl shadow-lg
         md:hover:-translate-y-4 md:hover:shadow-2xl transition-all duration-300`}
             >
-              <h2 className="text-xl sm:text-2xl font-bold pt-12 px-6 text-center text-white">
+              {/* Title */}
+              <h2 className="text-xl sm:text-2xl font-bold pt-12 px-6 text-white">
                 {card.title}
               </h2>
 
+              {/* Clickable 2-line link */}
+              <Link
+                href="/contact"
+                className="block mt-4 px-6 text-sm sm:text-base text-white/90 leading-relaxed
+                     hover:underline hover:text-white transition"
+              >
+                {card.line1}
+                <br />
+                <span className="opacity-80">{card.line2}</span>
+              </Link>
+
+              {/* Image */}
               <img
                 src={card.image}
                 alt=""
                 className="absolute -bottom-20 sm:-bottom-24 left-1/2 -translate-x-1/2
-          w-60 sm:w-72 rounded-xl
+          w-80 h-75 sm:w-72 rounded-xl
           md:transition-transform md:duration-500 md:hover:scale-105"
               />
             </div>
@@ -230,9 +246,6 @@ export default function HomePage() {
       {/* SPACER */}
       <div className="h-32 bg-white" />
 
-      
-
-      
       {/* ================= SERVICES ================= */}
       <section className="py-16 sm:py-24 px-4 sm:px-6 lg:px-8">
         <div className="max-w-7xl mx-auto">
