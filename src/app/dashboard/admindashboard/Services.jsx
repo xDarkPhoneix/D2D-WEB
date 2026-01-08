@@ -1,57 +1,88 @@
-"use client"
-import { useState } from "react";
-import { Search, Eye, Check, X } from "lucide-react";
+"use client";
+
+import React, { Component } from "react";
+import { Check, X } from "lucide-react";
 import Card from "./components/Card";
 import Table, { TableRow, TableCell } from "./components/Table";
 import Badge from "./components/Badge";
-import Button from "./components/Button";
-import Modal from "./components/Modal";
-import { mockServices } from "./mockdata.js";
+import adminservice from "@/app/adminapiservice/admin-service";
 
-export default function Services() {
-  const [services, setServices] = useState(mockServices);
-  const [searchTerm, setSearchTerm] = useState("");
-  const [filterStatus, setFilterStatus] = useState("all");
-  const [selectedService, setSelectedService] = useState(null);
-  const [showModal, setShowModal] = useState(false);
-
-  const handleAccept = (id) => {
-    setServices(
-      services.map((s) =>
-        s.id === id ? { ...s, status: "accepted" } : s
-      )
-    );
+class Services extends Component {
+  state = {
+    services: [],
+    loading: true,
+    error: "",
   };
 
-  const handleReject = (id) => {
-    setServices(
-      services.map((s) =>
-        s.id === id ? { ...s, status: "rejected" } : s
-      )
-    );
+  componentDidMount() {
+    this.fetchServices();
+  }
+
+  /* =========================
+     FETCH SERVICES
+  ========================= */
+  fetchServices = async () => {
+    try {
+      const services = await adminservice.getAllServices();
+      console.log("Services from API:", services);
+
+      this.setState({
+        services,
+        loading: false,
+      });
+    } catch (error) {
+      this.setState({
+        error: "Failed to load services",
+        loading: false,
+      });
+    }
   };
 
-  const handleViewDetails = (service) => {
-    setSelectedService(service);
-    setShowModal(true);
+  /* =========================
+     ACCEPT SERVICE
+  ========================= */
+  handleAccept = async (_id) => {
+    const prevServices = [...this.state.services];
+
+    // Optimistic update
+    this.setState({
+      services: prevServices.map((s) =>
+        s._id === _id ? { ...s, status: "accepted" } : s
+      ),
+    });
+
+    try {
+      await adminservice.acceptService(_id);
+    } catch (error) {
+      this.setState({ services: prevServices });
+      alert("Failed to accept service");
+    }
   };
 
-  const filteredServices = services.filter((service) => {
-    const matchesSearch =
-      service.serviceName
-        .toLowerCase()
-        .includes(searchTerm.toLowerCase()) ||
-      service.requestedBy
-        .toLowerCase()
-        .includes(searchTerm.toLowerCase());
+  /* =========================
+     REJECT SERVICE
+  ========================= */
+  handleReject = async (_id) => {
+    const prevServices = [...this.state.services];
 
-    const matchesFilter =
-      filterStatus === "all" || service.status === filterStatus;
+    this.setState({
+      services: prevServices.map((s) =>
+        s._id === _id ? { ...s, status: "rejected" } : s
+      ),
+    });
 
-    return matchesSearch && matchesFilter;
-  });
+    try {
+      await adminservice.rejectService(_id);
+    } catch (error) {
+      this.setState({ services: prevServices });
+      alert("Failed to reject service");
+    }
+  };
 
-  const getStatusBadge = (status) => {
+  /* =========================
+     STATUS BADGE
+  ========================= */
+  getStatusBadge = (status) => {
     switch (status) {
       case "accepted":
         return <Badge variant="success">Accepted</Badge>;
@@ -60,191 +91,81 @@ export default function Services() {
       case "pending":
         return <Badge variant="warning">Pending</Badge>;
       default:
-        return <Badge variant="default">{status}</Badge>;
+        return <Badge>{status}</Badge>;
     }
   };
 
-  return (
-    <div className="space-y-6">
-      {/* Header */}
-      <div>
-        <h1 className="text-3xl font-bold text-gray-900 mb-2">
-          Services Management
-        </h1>
-        <p className="text-gray-600">
-          Manage and track all service requests
-        </p>
-      </div>
+  /* =========================
+     RENDER
+  ========================= */
+  render() {
+    const { services, loading, error } = this.state;
 
-      {/* Filters + Table */}
+    if (loading) return <p className="text-gray-500">Loading services...</p>;
+    if (error) return <p className="text-red-500">{error}</p>;
+
+    return (
       <Card className="p-6">
-        <div className="flex flex-col md:flex-row gap-4 mb-6">
-          <div className="flex-1 relative">
-            <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-400" />
-            <input
-              type="text"
-              placeholder="Search services or clients..."
-              value={searchTerm}
-              onChange={(e) => setSearchTerm(e.target.value)}
-              className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-yellow-400"
-            />
-          </div>
-
-          <select
-            value={filterStatus}
-            onChange={(e) => setFilterStatus(e.target.value)}
-            className="px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-yellow-400"
-          >
-            <option value="all">All Status</option>
-            <option value="pending">Pending</option>
-            <option value="accepted">Accepted</option>
-            <option value="rejected">Rejected</option>
-          </select>
-        </div>
-
         <Table
           headers={[
             "Service Name",
             "Category",
             "Status",
             "Requested By",
-            "Date",
             "Actions",
           ]}
         >
-          {filteredServices.map((service) => (
-            <TableRow key={service.id}>
-              <TableCell>
-                <span className="font-semibold">
-                  {service.serviceName}
-                </span>
+          {services.map((service) => (
+            <TableRow key={service._id}>
+              <TableCell className="font-semibold">
+                {service.serviceName}
               </TableCell>
+
               <TableCell>{service.category}</TableCell>
-              <TableCell>{getStatusBadge(service.status)}</TableCell>
-              <TableCell>{service.requestedBy}</TableCell>
-              <TableCell>{service.date}</TableCell>
+
               <TableCell>
-                <div className="flex gap-2">
-                  <button
-                    onClick={() => handleViewDetails(service)}
-                    className="p-1.5 hover:bg-gray-100 rounded-lg transition-colors"
-                    title="View Details"
-                  >
-                    <Eye className="w-4 h-4 text-gray-600" />
-                  </button>
+                {this.getStatusBadge(service.status)}
+              </TableCell>
 
-                  {service.status === "pending" && (
-                    <>
-                      <button
-                        onClick={() => handleAccept(service.id)}
-                        className="p-1.5 hover:bg-green-100 rounded-lg transition-colors"
-                        title="Accept"
-                      >
-                        <Check className="w-4 h-4 text-green-600" />
-                      </button>
+              <TableCell>{service.requestedBy}</TableCell>
 
-                      <button
-                        onClick={() => handleReject(service.id)}
-                        className="p-1.5 hover:bg-red-100 rounded-lg transition-colors"
-                        title="Reject"
-                      >
-                        <X className="w-4 h-4 text-red-600" />
-                      </button>
-                    </>
-                  )}
-                </div>
+              <TableCell>
+                {service.status === "pending" && (
+                  <div className="flex gap-2">
+                    <button
+                      onClick={() =>
+                        this.handleAccept(service._id)
+                      }
+                      className="p-1.5 hover:bg-green-100 rounded"
+                      title="Accept"
+                    >
+                      <Check className="w-4 h-4 text-green-600" />
+                    </button>
+
+                    <button
+                      onClick={() =>
+                        this.handleReject(service._id)
+                      }
+                      className="p-1.5 hover:bg-red-100 rounded"
+                      title="Reject"
+                    >
+                      <X className="w-4 h-4 text-red-600" />
+                    </button>
+                  </div>
+                )}
               </TableCell>
             </TableRow>
           ))}
         </Table>
 
-        {filteredServices.length === 0 && (
-          <div className="text-center py-12">
-            <p className="text-gray-500">No services found</p>
-          </div>
+        {services.length === 0 && (
+          <p className="text-center text-gray-500 py-10">
+            No services found
+          </p>
         )}
       </Card>
-
-      {/* Details Modal */}
-      <Modal
-        isOpen={showModal}
-        onClose={() => setShowModal(false)}
-        title="Service Details"
-        size="lg"
-      >
-        {selectedService && (
-          <div className="space-y-4">
-            <div>
-              <label className="text-sm font-semibold text-gray-700">
-                Service Name
-              </label>
-              <p className="text-gray-900 mt-1">
-                {selectedService.serviceName}
-              </p>
-            </div>
-
-            <div>
-              <label className="text-sm font-semibold text-gray-700">
-                Category
-              </label>
-              <p className="text-gray-900 mt-1">
-                {selectedService.category}
-              </p>
-            </div>
-
-            <div>
-              <label className="text-sm font-semibold text-gray-700">
-                Requested By
-              </label>
-              <p className="text-gray-900 mt-1">
-                {selectedService.requestedBy}
-              </p>
-            </div>
-
-            <div>
-              <label className="text-sm font-semibold text-gray-700">
-                Status
-              </label>
-              <div className="mt-1">
-                {getStatusBadge(selectedService.status)}
-              </div>
-            </div>
-
-            <div>
-              <label className="text-sm font-semibold text-gray-700">
-                Request Date
-              </label>
-              <p className="text-gray-900 mt-1">
-                {selectedService.date}
-              </p>
-            </div>
-
-            {selectedService.status === "pending" && (
-              <div className="flex gap-3 pt-4">
-                <Button
-                  variant="success"
-                  onClick={() => {
-                    handleAccept(selectedService.id);
-                    setShowModal(false);
-                  }}
-                >
-                  Accept Service
-                </Button>
-
-                <Button
-                  variant="danger"
-                  onClick={() => {
-                    handleReject(selectedService.id);
-                    setShowModal(false);
-                  }}
-                >
-                  Reject Service
-                </Button>
-              </div>
-            )}
-          </div>
-        )}
-      </Modal>
-    </div>
-  );
+    );
+  }
 }
+
+export default Services;

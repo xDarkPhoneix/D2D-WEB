@@ -1,7 +1,11 @@
 import mongoose from "mongoose";
 
 const userSchema = new mongoose.Schema(
-  {
+  {  
+    name:{
+       type: String,
+        trim: true,
+    },
     email: {
       type: String,
       required: true,
@@ -17,6 +21,14 @@ const userSchema = new mongoose.Schema(
         required:true,
         default:"user",
         enum: ["user", "admin","superadmin","projectmanager"],
+    },
+    status: {
+      type: String,
+      enum: ["active", "blocked"],
+      default: "active",
+    },
+    joinedDate: {
+      type: String,
     },
    
     //admin only attributes

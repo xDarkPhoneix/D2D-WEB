@@ -1,17 +1,24 @@
-"use client"
-import { useState } from "react";
+"use client";
+
+import { useEffect, useState } from "react";
 import { Plus, MapPin, Users, Edit, XCircle } from "lucide-react";
 import Card from "./components/Card";
 import Badge from "./components/Badge";
 import Button from "./components/Button";
 import Modal from "./components/Modal";
-import { mockJobs } from "./mockdata.js";
+import adminservice from "@/app/adminapiservice/admin-service";
+import JobForm from "./components/JobForm";
+import { useSession } from "next-auth/react";
 
 export default function Jobs() {
-  const [jobs, setJobs] = useState(mockJobs);
+  const [jobs, setJobs] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const { data: session, status } = useSession();
+
   const [showCreateModal, setShowCreateModal] = useState(false);
   const [showEditModal, setShowEditModal] = useState(false);
   const [selectedJob, setSelectedJob] = useState(null);
+
   const [formData, setFormData] = useState({
     title: "",
     department: "",
@@ -21,40 +28,52 @@ export default function Jobs() {
     experience: "",
   });
 
-  const handleCreateJob = () => {
-    const newJob = {
-      id: String(jobs.length + 1),
-      title: formData.title,
-      department: formData.department,
-      location: formData.location,
-      status: "open",
-      description: formData.description,
-      skills: formData.skills.split(",").map((s) => s.trim()),
-      experience: formData.experience,
-      applicants: 0,
+  /* ---------------- FETCH JOBS ---------------- */
+
+  useEffect(() => {
+
+    console.log("se",session.user.id);
+    
+
+    const fetchJobs = async () => {
+      try {
+        const data = await adminservice.getAllJobs();
+        setJobs(data);
+      } catch (error) {
+        console.error("Failed to fetch jobs", error);
+      } finally {
+        setLoading(false);
+      }
     };
 
-    setJobs([...jobs, newJob]);
-    setShowCreateModal(false);
-    setFormData({
-      title: "",
-      department: "",
-      location: "",
-      description: "",
-      skills: "",
-      experience: "",
-    });
+    fetchJobs();
+  }, []);
+
+  /* ---------------- CREATE JOB ---------------- */
+
+  const handleCreateJob = async () => {
+    try {
+      const payload = {
+        title: formData.title,
+        department: formData.department,
+        location: formData.location,
+        description: formData.description,
+        skills: formData.skills.split(",").map((s) => s.trim()),
+        experience: formData.experience,
+        createdBy: session.user.id   ///need to be dyanmic
+      };
+
+      const createdJob = await adminservice.createJob(payload);
+      setJobs([createdJob, ...jobs]);
+
+      setShowCreateModal(false);
+      resetForm();
+    } catch (error) {
+      console.error("Create job failed", error);
+    }
   };
 
-  const handleToggleStatus = (id) => {
-    setJobs(
-      jobs.map((j) =>
-        j.id === id
-          ? { ...j, status: j.status === "open" ? "closed" : "open" }
-          : j
-      )
-    );
-  };
+  /* ---------------- EDIT JOB ---------------- */
 
   const handleEditJob = (job) => {
     setSelectedJob(job);
@@ -69,233 +88,125 @@ export default function Jobs() {
     setShowEditModal(true);
   };
 
-  const handleUpdateJob = () => {
+  const handleUpdateJob = async () => {
     if (!selectedJob) return;
 
-    setJobs(
-      jobs.map((j) =>
-        j.id === selectedJob.id
-          ? {
-              ...j,
-              title: formData.title,
-              department: formData.department,
-              location: formData.location,
-              description: formData.description,
-              skills: formData.skills.split(",").map((s) => s.trim()),
-              experience: formData.experience,
-            }
-          : j
-      )
-    );
+    try {
+      const payload = {
+        title: formData.title,
+        department: formData.department,
+        location: formData.location,
+        description: formData.description,
+        skills: formData.skills.split(",").map((s) => s.trim()),
+        experience: formData.experience,
+      };
 
-    setShowEditModal(false);
-    setSelectedJob(null);
+      const updatedJob = await adminservice.updateJob(selectedJob._id, payload);
+
+      setJobs(jobs.map((j) => (j._id === updatedJob._id ? updatedJob : j)));
+
+      setShowEditModal(false);
+      setSelectedJob(null);
+      resetForm();
+    } catch (error) {
+      console.error("Update job failed", error);
+    }
   };
 
-  const JobForm = ({ onSubmit, submitLabel }) => (
-    <div className="space-y-4">
-      <div>
-        <label className="block text-sm font-semibold text-gray-700 mb-2">
-          Job Title
-        </label>
-        <input
-          type="text"
-          value={formData.title}
-          onChange={(e) =>
-            setFormData({ ...formData, title: e.target.value })
-          }
-          className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-yellow-400"
-          placeholder="e.g., Senior Creative Designer"
-        />
-      </div>
+  /* ---------------- TOGGLE STATUS ---------------- */
 
-      <div className="grid grid-cols-2 gap-4">
-        <div>
-          <label className="block text-sm font-semibold text-gray-700 mb-2">
-            Department
-          </label>
-          <input
-            type="text"
-            value={formData.department}
-            onChange={(e) =>
-              setFormData({ ...formData, department: e.target.value })
-            }
-            className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-yellow-400"
-            placeholder="e.g., Design"
-          />
-        </div>
+  const handleToggleStatus = async (job) => {
+    try {
+      const newStatus = job.status === "open" ? "closed" : "open";
 
-        <div>
-          <label className="block text-sm font-semibold text-gray-700 mb-2">
-            Location
-          </label>
-          <input
-            type="text"
-            value={formData.location}
-            onChange={(e) =>
-              setFormData({ ...formData, location: e.target.value })
-            }
-            className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-yellow-400"
-            placeholder="e.g., Mumbai, India"
-          />
-        </div>
-      </div>
+      const updatedJob = await adminservice.toggleJobStatus(job._id, newStatus);
 
-      <div>
-        <label className="block text-sm font-semibold text-gray-700 mb-2">
-          Description
-        </label>
-        <textarea
-          rows={4}
-          value={formData.description}
-          onChange={(e) =>
-            setFormData({ ...formData, description: e.target.value })
-          }
-          className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-yellow-400"
-          placeholder="Job description..."
-        />
-      </div>
+      setJobs(jobs.map((j) => (j._id === updatedJob._id ? updatedJob : j)));
+    } catch (error) {
+      console.error("Toggle status failed", error);
+    }
+  };
 
-      <div>
-        <label className="block text-sm font-semibold text-gray-700 mb-2">
-          Skills Required (comma-separated)
-        </label>
-        <input
-          type="text"
-          value={formData.skills}
-          onChange={(e) =>
-            setFormData({ ...formData, skills: e.target.value })
-          }
-          className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-yellow-400"
-          placeholder="e.g., Adobe Creative Suite, Figma, Illustration"
-        />
-      </div>
+  /* ---------------- HELPERS ---------------- */
 
-      <div>
-        <label className="block text-sm font-semibold text-gray-700 mb-2">
-          Experience Level
-        </label>
-        <input
-          type="text"
-          value={formData.experience}
-          onChange={(e) =>
-            setFormData({ ...formData, experience: e.target.value })
-          }
-          className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-yellow-400"
-          placeholder="e.g., 3–5 years"
-        />
-      </div>
+  const resetForm = () => {
+    setFormData({
+      title: "",
+      department: "",
+      location: "",
+      description: "",
+      skills: "",
+      experience: "",
+    });
+  };
 
-      <div className="pt-4">
-        <Button onClick={onSubmit}>{submitLabel}</Button>
-      </div>
-    </div>
-  );
+  /* ---------------- UI ---------------- */
+
+  if (loading) return <p>Loading jobs...</p>;
 
   return (
     <div className="space-y-6">
-      {/* Header */}
-      <div className="flex items-center justify-between">
+      <div className="flex justify-between items-center">
         <div>
-          <h1 className="text-3xl font-bold text-gray-900 mb-2">
-            Job Openings
-          </h1>
-          <p className="text-gray-600">
-            Manage job positions and openings
-          </p>
+          <h1 className="text-3xl font-bold">Job Openings</h1>
+          <p className="text-gray-600">Manage job positions</p>
         </div>
-
         <Button onClick={() => setShowCreateModal(true)}>
-          <Plus className="w-5 h-5 mr-2 inline" />
-          Create New Job
+          <Plus className="w-4 h-4 mr-2 inline" /> Create Job
         </Button>
       </div>
 
-      {/* Job Cards */}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
         {jobs.map((job) => (
-          <Card key={job.id} hover className="p-6">
-            <div className="flex items-start justify-between mb-4">
+          <Card key={job._id} hover className="p-6">
+            <div className="flex justify-between mb-4">
               <div>
-                <h3 className="text-lg font-bold text-gray-900 mb-1">
-                  {job.title}
-                </h3>
-                <p className="text-sm text-gray-600">
-                  {job.department}
-                </p>
+                <h3 className="font-bold">{job.title}</h3>
+                <p className="text-sm text-gray-600">{job.department}</p>
               </div>
-
-              <Badge
-                variant={job.status === "open" ? "success" : "default"}
-              >
+              <Badge variant={job.status === "open" ? "success" : "default"}>
                 {job.status}
               </Badge>
             </div>
 
-            <div className="space-y-2 mb-4">
-              <div className="flex items-center gap-2 text-sm text-gray-600">
-                <MapPin className="w-4 h-4" />
-                {job.location}
+            <div className="text-sm text-gray-600 space-y-2 mb-4">
+              <div className="flex items-center gap-2">
+                <MapPin className="w-4 h-4" /> {job.location}
               </div>
-              <div className="flex items-center gap-2 text-sm text-gray-600">
-                <Users className="w-4 h-4" />
-                {job.applicants} applicants
+              <div className="flex items-center gap-2">
+                <Users className="w-4 h-4" /> {job.applicantsCount} applicants
               </div>
-            </div>
-
-            <div className="flex flex-wrap gap-2 mb-4">
-              {job.skills.slice(0, 3).map((skill, index) => (
-                <span
-                  key={index}
-                  className="px-2 py-1 bg-gray-100 text-gray-700 text-xs rounded-lg"
-                >
-                  {skill}
-                </span>
-              ))}
-              {job.skills.length > 3 && (
-                <span className="px-2 py-1 bg-gray-100 text-gray-700 text-xs rounded-lg">
-                  +{job.skills.length - 3}
-                </span>
-              )}
             </div>
 
             <div className="flex gap-2">
               <Button
-                onClick={() => handleEditJob(job)}
-                variant="secondary"
                 size="sm"
+                variant="secondary"
+                onClick={() => handleEditJob(job)}
               >
-                <Edit className="w-4 h-4 mr-1 inline" />
-                Edit
+                <Edit className="w-4 h-4 mr-1 inline" /> Edit
               </Button>
 
               <Button
-                onClick={() => handleToggleStatus(job.id)}
-                variant={job.status === "open" ? "danger" : "success"}
                 size="sm"
+                variant={job.status === "open" ? "danger" : "success"}
+                onClick={() => handleToggleStatus(job)}
               >
-                {job.status === "open" ? (
-                  <>
-                    <XCircle className="w-4 h-4 mr-1 inline" />
-                    Close
-                  </>
-                ) : (
-                  "Reopen"
-                )}
+                <XCircle className="w-4 h-4 mr-1 inline" />
+                {job.status === "open" ? "Close" : "Reopen"}
               </Button>
             </div>
           </Card>
         ))}
       </div>
-
-      {/* Modals */}
       <Modal
         isOpen={showCreateModal}
         onClose={() => setShowCreateModal(false)}
-        title="Create New Job Opening"
-        size="lg"
+        title="Create Job"
       >
         <JobForm
+          formData={formData}
+          setFormData={setFormData}
           onSubmit={handleCreateJob}
           submitLabel="Create Job"
         />
@@ -304,10 +215,11 @@ export default function Jobs() {
       <Modal
         isOpen={showEditModal}
         onClose={() => setShowEditModal(false)}
-        title="Edit Job Opening"
-        size="lg"
+        title="Edit Job"
       >
         <JobForm
+          formData={formData}
+          setFormData={setFormData}
           onSubmit={handleUpdateJob}
           submitLabel="Update Job"
         />
