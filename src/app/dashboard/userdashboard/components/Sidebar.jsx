@@ -9,7 +9,9 @@ import {
     ChevronRight,
     Grid,
     X,
+    LogOut,
 } from "lucide-react";
+import { signOut } from "next-auth/react";
 
 const menuItems = [
     { id: "dashboard", label: "Dashboard", icon: LayoutDashboard },
@@ -20,6 +22,10 @@ const menuItems = [
 
 export default function Sidebar({ currentPage, onNavigate, isOpen, onClose }) {
     const [collapsed, setCollapsed] = useState(false);
+
+    const handleLogout = async () => {
+        await signOut({ callbackUrl: '/login' });
+    };
 
     return (
         <>
@@ -80,8 +86,8 @@ export default function Sidebar({ currentPage, onNavigate, isOpen, onClose }) {
                                     <button
                                         onClick={() => onNavigate(item.id)}
                                         className={`w-full flex items-center gap-3 px-4 py-3 rounded-lg transition-all duration-200 ${isActive
-                                                ? "bg-yellow-400 text-black font-semibold"
-                                                : "text-gray-300 hover:bg-gray-800 hover:text-white"
+                                            ? "bg-yellow-400 text-black font-semibold"
+                                            : "text-gray-300 hover:bg-gray-800 hover:text-white"
                                             }`}
                                     >
                                         <Icon className="w-5 h-5 flex-shrink-0" />
@@ -94,14 +100,22 @@ export default function Sidebar({ currentPage, onNavigate, isOpen, onClose }) {
                 </nav>
 
                 {/* Footer */}
-                {!collapsed && (
-                    <div className="p-4 border-t border-gray-800">
+                <div className="p-4 border-t border-gray-800 space-y-4">
+                    {!collapsed && (
                         <div className="bg-gradient-to-br from-yellow-400 to-yellow-500 rounded-lg p-4 text-black">
                             <h3 className="font-bold mb-1">Need Support?</h3>
                             <p className="text-sm opacity-90">Contact our team</p>
                         </div>
-                    </div>
-                )}
+                    )}
+
+                    <button
+                        onClick={handleLogout}
+                        className={`w-full flex items-center gap-3 px-4 py-3 rounded-lg transition-all duration-200 text-gray-300 hover:bg-gray-800 hover:text-red-400`}
+                    >
+                        <LogOut className="w-5 h-5 flex-shrink-0" />
+                        {!collapsed && <span>Logout</span>}
+                    </button>
+                </div>
             </aside>
         </>
     );

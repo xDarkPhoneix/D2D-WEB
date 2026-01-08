@@ -1,9 +1,13 @@
 import { getToken } from "next-auth/jwt";
 import { NextResponse } from "next/server";
+import { NEXTAUTH_SECRET } from "@/auth-secret";
 
 export async function middleware(req) {
-  const token = await getToken({ req });
-
+  const token = await getToken({
+    req,
+    secret: NEXTAUTH_SECRET,
+    secureCookie: process.env.NODE_ENV === "production",
+  });
 
 
   const pathname = req.nextUrl.pathname;
@@ -11,9 +15,17 @@ export async function middleware(req) {
 
 
   // Not logged in → redirect to login
-  // Exception: allow access to /dashboard/userdashboard without authentication
-  if (!token && pathname.startsWith("/dashboard") && !pathname.startsWith("/dashboard/userdashboard")) {
+  // All dashboard routes now require authentication
+  if (!token && pathname.startsWith("/dashboard")) {
     return NextResponse.redirect(new URL("/login", req.url));
+  }
+
+  // Authenticated user should not access /login
+  if (token && pathname === "/login") {
+    const redirectUrl = token.role === "admin"
+      ? "/dashboard/admindashboard"
+      : "/dashboard/userdashboard";
+    return NextResponse.redirect(new URL(redirectUrl, req.url));
   }
 
   // Google user without password → force set-password
@@ -38,5 +50,5 @@ export async function middleware(req) {
 
 // Apply middleware only to these routes
 export const config = {
-  matcher: ["/dashboard/:path*", "/set-password"],
+  matcher: ["/dashboard/:path*", "/set-password", "/login"],
 };

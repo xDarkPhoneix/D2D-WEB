@@ -1,34 +1,53 @@
 "use client"
-import { useState } from "react";
-import { Search, Eye, Check, X } from "lucide-react";
+import { useState, useEffect } from "react";
+import { Search, Plus, Eye, Edit, Trash2 } from "lucide-react";
 import Card from "./components/Card";
 import Table, { TableRow, TableCell } from "./components/Table";
 import Badge from "./components/Badge";
 import Button from "./components/Button";
 import Modal from "./components/Modal";
-import { mockServices } from "./mockdata.js";
+import axios from "axios";
+import Image from "next/image";
 
 export default function Services() {
-  const [services, setServices] = useState(mockServices);
+  const [services, setServices] = useState([]);
+  const [filteredServices, setFilteredServices] = useState([]);
   const [searchTerm, setSearchTerm] = useState("");
-  const [filterStatus, setFilterStatus] = useState("all");
+  const [filterCategory, setFilterCategory] = useState("all");
   const [selectedService, setSelectedService] = useState(null);
   const [showModal, setShowModal] = useState(false);
+  const [loading, setLoading] = useState(true);
 
-  const handleAccept = (id) => {
-    setServices(
-      services.map((s) =>
-        s.id === id ? { ...s, status: "accepted" } : s
-      )
-    );
-  };
+  useEffect(() => {
+    fetchServices();
+  }, []);
 
-  const handleReject = (id) => {
-    setServices(
-      services.map((s) =>
-        s.id === id ? { ...s, status: "rejected" } : s
-      )
-    );
+  useEffect(() => {
+    const filtered = services.filter((service) => {
+      const matchesSearch =
+        service.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
+        service.category.toLowerCase().includes(searchTerm.toLowerCase());
+
+      const matchesCategory =
+        filterCategory === "all" || service.category === filterCategory;
+
+      return matchesSearch && matchesCategory;
+    });
+    setFilteredServices(filtered);
+  }, [searchTerm, filterCategory, services]);
+
+  const fetchServices = async () => {
+    try {
+      setLoading(true);
+      const response = await axios.get("/api/admin/services");
+      if (response.data.success) {
+        setServices(response.data.services);
+      }
+    } catch (error) {
+      console.error("Error fetching services:", error);
+    } finally {
+      setLoading(false);
+    }
   };
 
   const handleViewDetails = (service) => {
@@ -36,44 +55,24 @@ export default function Services() {
     setShowModal(true);
   };
 
-  const filteredServices = services.filter((service) => {
-    const matchesSearch =
-      service.serviceName
-        .toLowerCase()
-        .includes(searchTerm.toLowerCase()) ||
-      service.requestedBy
-        .toLowerCase()
-        .includes(searchTerm.toLowerCase());
-
-    const matchesFilter =
-      filterStatus === "all" || service.status === filterStatus;
-
-    return matchesSearch && matchesFilter;
-  });
-
-  const getStatusBadge = (status) => {
-    switch (status) {
-      case "accepted":
-        return <Badge variant="success">Accepted</Badge>;
-      case "rejected":
-        return <Badge variant="danger">Rejected</Badge>;
-      case "pending":
-        return <Badge variant="warning">Pending</Badge>;
-      default:
-        return <Badge variant="default">{status}</Badge>;
-    }
-  };
+  const categories = ["all", ...new Set(services.map(s => s.category))];
 
   return (
     <div className="space-y-6">
       {/* Header */}
-      <div>
-        <h1 className="text-3xl font-bold text-gray-900 mb-2">
-          Services Management
-        </h1>
-        <p className="text-gray-600">
-          Manage and track all service requests
-        </p>
+      <div className="flex justify-between items-end">
+        <div>
+          <h1 className="text-3xl font-bold text-gray-900 mb-2">
+            Service Catalog
+          </h1>
+          <p className="text-gray-600">
+            Manage your service offerings ({services.length} services)
+          </p>
+        </div>
+        <Button className="bg-[#F8D200] text-black hover:bg-[#eaca00]">
+          <Plus className="w-5 h-5 mr-2" />
+          Add Service
+        </Button>
       </div>
 
       {/* Filters + Table */}
@@ -83,7 +82,7 @@ export default function Services() {
             <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-400" />
             <input
               type="text"
-              placeholder="Search services or clients..."
+              placeholder="Search services..."
               value={searchTerm}
               onChange={(e) => setSearchTerm(e.target.value)}
               className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-yellow-400"
@@ -91,77 +90,94 @@ export default function Services() {
           </div>
 
           <select
-            value={filterStatus}
-            onChange={(e) => setFilterStatus(e.target.value)}
+            value={filterCategory}
+            onChange={(e) => setFilterCategory(e.target.value)}
             className="px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-yellow-400"
           >
-            <option value="all">All Status</option>
-            <option value="pending">Pending</option>
-            <option value="accepted">Accepted</option>
-            <option value="rejected">Rejected</option>
+            {categories.map(cat => (
+              <option key={cat} value={cat}>
+                {cat === 'all' ? 'All Categories' : cat}
+              </option>
+            ))}
           </select>
         </div>
 
-        <Table
-          headers={[
-            "Service Name",
-            "Category",
-            "Status",
-            "Requested By",
-            "Date",
-            "Actions",
-          ]}
-        >
-          {filteredServices.map((service) => (
-            <TableRow key={service.id}>
-              <TableCell>
-                <span className="font-semibold">
-                  {service.serviceName}
-                </span>
-              </TableCell>
-              <TableCell>{service.category}</TableCell>
-              <TableCell>{getStatusBadge(service.status)}</TableCell>
-              <TableCell>{service.requestedBy}</TableCell>
-              <TableCell>{service.date}</TableCell>
-              <TableCell>
-                <div className="flex gap-2">
-                  <button
-                    onClick={() => handleViewDetails(service)}
-                    className="p-1.5 hover:bg-gray-100 rounded-lg transition-colors"
-                    title="View Details"
-                  >
-                    <Eye className="w-4 h-4 text-gray-600" />
-                  </button>
-
-                  {service.status === "pending" && (
-                    <>
-                      <button
-                        onClick={() => handleAccept(service.id)}
-                        className="p-1.5 hover:bg-green-100 rounded-lg transition-colors"
-                        title="Accept"
-                      >
-                        <Check className="w-4 h-4 text-green-600" />
-                      </button>
-
-                      <button
-                        onClick={() => handleReject(service.id)}
-                        className="p-1.5 hover:bg-red-100 rounded-lg transition-colors"
-                        title="Reject"
-                      >
-                        <X className="w-4 h-4 text-red-600" />
-                      </button>
-                    </>
-                  )}
-                </div>
-              </TableCell>
-            </TableRow>
-          ))}
-        </Table>
-
-        {filteredServices.length === 0 && (
+        {loading ? (
           <div className="text-center py-12">
-            <p className="text-gray-500">No services found</p>
+            <div className="inline-block w-8 h-8 border-4 border-yellow-400 border-t-transparent rounded-full animate-spin"></div>
+            <p className="mt-4 text-gray-600">Loading services...</p>
           </div>
+        ) : (
+          <>
+            <Table
+              headers={[
+                "Image",
+                "Service Name",
+                "Category",
+                "Price",
+                "Status",
+                "Actions",
+              ]}
+            >
+              {filteredServices.map((service) => (
+                <TableRow key={service._id}>
+                  <TableCell>
+                    <div className="w-12 h-12 relative rounded-lg overflow-hidden bg-gray-100">
+                      {service.image ? (
+                        <Image
+                          src={service.image}
+                          alt={service.title}
+                          fill
+                          className="object-cover"
+                        />
+                      ) : (
+                        <div className="flex items-center justify-center h-full text-xs text-gray-500">No Img</div>
+                      )}
+                    </div>
+                  </TableCell>
+                  <TableCell>
+                    <span className="font-semibold text-gray-900">
+                      {service.title}
+                    </span>
+                  </TableCell>
+                  <TableCell>
+                    <Badge variant="default">{service.category}</Badge>
+                  </TableCell>
+                  <TableCell className="text-gray-600 font-medium">
+                    {service.price}
+                  </TableCell>
+                  <TableCell>
+                    <Badge variant={service.isActive ? "success" : "secondary"}>
+                      {service.isActive ? "Active" : "Inactive"}
+                    </Badge>
+                  </TableCell>
+                  <TableCell>
+                    <div className="flex gap-2">
+                      <button
+                        onClick={() => handleViewDetails(service)}
+                        className="p-1.5 hover:bg-gray-100 rounded-lg transition-colors"
+                        title="View Details"
+                      >
+                        <Eye className="w-4 h-4 text-gray-600" />
+                      </button>
+                      <button
+                        className="p-1.5 hover:bg-blue-50 rounded-lg transition-colors"
+                        title="Edit"
+                      >
+                        <Edit className="w-4 h-4 text-blue-600" />
+                      </button>
+                    </div>
+                  </TableCell>
+                </TableRow>
+              ))}
+            </Table>
+
+            {filteredServices.length === 0 && (
+              <div className="text-center py-12">
+                <p className="text-gray-500">No services found</p>
+              </div>
+            )}
+          </>
         )}
       </Card>
 
@@ -173,78 +189,60 @@ export default function Services() {
         size="lg"
       >
         {selectedService && (
-          <div className="space-y-4">
-            <div>
-              <label className="text-sm font-semibold text-gray-700">
-                Service Name
-              </label>
-              <p className="text-gray-900 mt-1">
-                {selectedService.serviceName}
-              </p>
+          <div className="space-y-6">
+            <div className="w-full h-48 relative rounded-xl overflow-hidden bg-gray-100">
+              {selectedService.image && (
+                <Image
+                  src={selectedService.image}
+                  alt={selectedService.title}
+                  fill
+                  className="object-cover"
+                />
+              )}
             </div>
 
-            <div>
-              <label className="text-sm font-semibold text-gray-700">
-                Category
-              </label>
-              <p className="text-gray-900 mt-1">
-                {selectedService.category}
-              </p>
-            </div>
-
-            <div>
-              <label className="text-sm font-semibold text-gray-700">
-                Requested By
-              </label>
-              <p className="text-gray-900 mt-1">
-                {selectedService.requestedBy}
-              </p>
-            </div>
-
-            <div>
-              <label className="text-sm font-semibold text-gray-700">
-                Status
-              </label>
-              <div className="mt-1">
-                {getStatusBadge(selectedService.status)}
+            <div className="grid grid-cols-2 gap-4">
+              <div>
+                <label className="text-sm font-semibold text-gray-700">Service Name</label>
+                <p className="text-xl font-bold text-gray-900">{selectedService.title}</p>
+              </div>
+              <div>
+                <label className="text-sm font-semibold text-gray-700">Category</label>
+                <div className="mt-1">
+                  <Badge variant="default">{selectedService.category}</Badge>
+                </div>
               </div>
             </div>
 
             <div>
-              <label className="text-sm font-semibold text-gray-700">
-                Request Date
-              </label>
-              <p className="text-gray-900 mt-1">
-                {selectedService.date}
-              </p>
+              <label className="text-sm font-semibold text-gray-700">Description</label>
+              <p className="text-gray-600 mt-1 leading-relaxed">{selectedService.description}</p>
             </div>
 
-            {selectedService.status === "pending" && (
-              <div className="flex gap-3 pt-4">
-                <Button
-                  variant="success"
-                  onClick={() => {
-                    handleAccept(selectedService.id);
-                    setShowModal(false);
-                  }}
-                >
-                  Accept Service
-                </Button>
-
-                <Button
-                  variant="danger"
-                  onClick={() => {
-                    handleReject(selectedService.id);
-                    setShowModal(false);
-                  }}
-                >
-                  Reject Service
-                </Button>
+            <div className="grid grid-cols-2 gap-4">
+              <div>
+                <label className="text-sm font-semibold text-gray-700">Price</label>
+                <p className="text-lg font-semibold text-[#F8D200] bg-black inline-block px-3 py-1 rounded-lg mt-1">
+                  {selectedService.price}
+                </p>
               </div>
-            )}
+              <div>
+                <label className="text-sm font-semibold text-gray-700">Status</label>
+                <div className="mt-1">
+                  <Badge variant={selectedService.isActive ? "success" : "secondary"}>
+                    {selectedService.isActive ? "Active" : "Inactive"}
+                  </Badge>
+                </div>
+              </div>
+            </div>
+
+            <div className="pt-4 flex justify-end gap-3">
+              <Button onClick={() => setShowModal(false)} variant="secondary">Close</Button>
+            </div>
           </div>
         )}
       </Modal>
     </div>
   );
 }
+

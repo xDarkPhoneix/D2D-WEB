@@ -61,15 +61,12 @@ export default function ServiceApplications() {
     const handleStatusUpdate = async (applicationId, newStatus, adminNotes = "") => {
         try {
             setUpdateLoading(true);
-            // TODO: Get actual admin ID from session
-            const adminId = "temp_admin_id";
 
             const response = await axios.patch(
                 `/api/admin/service-applications/${applicationId}`,
                 {
                     status: newStatus,
                     adminNotes,
-                    reviewedBy: adminId,
                 }
             );
 

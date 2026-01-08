@@ -2,8 +2,9 @@ import CredentialsProvider from "next-auth/providers/credentials";
 import GoogleProvider from "next-auth/providers/google";
 import bcrypt from "bcrypt";
 
-import { connectDB } from "./db";
+import  connectDB  from "./db";
 import { User } from "@/app/models/user.model.js";
+import { NEXTAUTH_SECRET } from "@/auth-secret";
 
 export const authoptions = {
   providers: [
@@ -71,17 +72,25 @@ export const authoptions = {
         const existingUser = await User.findOne({ email: user.email });
 
         if (existingUser) {
+          // Set role and id from existing user
+          user.role = existingUser.role;
+          user.id = existingUser._id.toString();
+
           if (existingUser.password !== "") {
             user.hasPassword = true;
           }
         }
 
         if (!existingUser) {
-          await User.create({
+          const newUser = await User.create({
             email: user.email,
             name: user.name,
             role: "user",
           });
+
+          // Set role and id for new user
+          user.role = newUser.role;
+          user.id = newUser._id.toString();
         }
       }
       return true;
@@ -102,11 +111,11 @@ export const authoptions = {
 
     // 🔹 SESSION
     async session({ session, token }) {
-      console.log("ss", session);
-
       session.user.id = token.id;
       session.user.role = token.role;
       session.user.hasPassword = token.hasPassword;
+
+      console.log("📋 Final session with role:", session);
       return session;
     },
   },
@@ -121,5 +130,5 @@ export const authoptions = {
     maxAge: 30 * 24 * 60 * 60,
   },
 
-  secret: process.env.NEXTAUTH_SECRET,
+  secret: NEXTAUTH_SECRET,
 };

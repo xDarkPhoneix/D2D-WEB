@@ -10,6 +10,8 @@ import {
   Users,
   Zap,
 } from "lucide-react";
+import AnimatedCounter from "./components/AnimatedCounter";
+
 export default function HomePage() {
   const [bgImage, setBgImage] = useState("");
 
@@ -17,21 +19,21 @@ export default function HomePage() {
     {
       title:
         "Turn your brand into the name everyone’s talking about.",
-      line1:"Visibility, trust, and conversions that actually work..",
+      line1: "Visibility, trust, and conversions that actually work..",
       image: "/AA21.png",
       bg: "bg-[#c32126]", // red
     },
     {
       title:
         "Don’t miss the chance to do your best work ever. ",
-          line1:"Join the bold minds building D2D Digital Studio.",
+      line1: "Join the bold minds building D2D Digital Studio.",
       image: "./hma2.png",
       bg: "bg-[#1f7ae0]", // blue
     },
     {
       title:
         "Love digital storytelling and growth marketing? ",
-          line1:"Subscribe for insights, trends, and strategies from our studio.",
+      line1: "Subscribe for insights, trends, and strategies from our studio.",
       image: "/hh.jpeg",
       bg: "bg-[#0f9d58]", // green
     },
@@ -133,57 +135,65 @@ export default function HomePage() {
           , wild enough to think bigger!
         </p>
 
-        <Link
-          href="/contact"
-          className="inline-block px-8 sm:px-10 py-3 sm:py-4 bg-black text-white font-bold rounded-full transition-transform md:hover:scale-105"
-        >
-          Let’s Build Something Iconic
-        </Link>
+        <div className="flex flex-col sm:flex-row gap-4 justify-center mt-8">
+          <Link
+            href="/login"
+            className="inline-block px-8 sm:px-10 py-3 sm:py-4 bg-black text-white font-bold rounded-full transition-transform md:hover:scale-105 border-2 border-black"
+          >
+            Login
+          </Link>
+          <Link
+            href="/register"
+            className="inline-block px-8 sm:px-10 py-3 sm:py-4 bg-white text-black font-bold rounded-full transition-transform md:hover:scale-105 border-2 border-black hover:bg-gray-100"
+          >
+            Register
+          </Link>
+        </div>
       </section>
 
-      {/* Achivements section */}
-      <section className="py-16  mt-17 sm:py-24 px-4 sm:px-6 lg:px-8 bg-black text-white">
+      {/* Achievements section */}
+      <section className="py-16 mt-17 sm:py-24 px-4 sm:px-6 lg:px-8 bg-black text-white">
         <div className="max-w-7xl mx-auto">
           <div className="grid grid-cols-2 lg:grid-cols-4 gap-8 sm:gap-12">
-            <div>
+            <div className="text-center animate-fade-in-up ">
               <div
                 className="text-4xl sm:text-5xl font-bold mb-2"
                 style={{ color: "#f8d200" }}
               >
-                200+
+                <AnimatedCounter end={200} suffix="+" />
               </div>
-              <div className="text-sm sm:text-base text-gray-400">
+              <div className="text-sm  sm:text-base text-gray-400">
                 Brands Launched
               </div>
             </div>
-            <div>
+            <div className="text-center animate-fade-in-up delay-200">
               <div
                 className="text-4xl sm:text-5xl font-bold mb-2"
                 style={{ color: "#f8d200" }}
               >
-                3.5M+
+                <AnimatedCounter end={3.5} suffix="M+" decimals={1} />
               </div>
               <div className="text-sm sm:text-base text-gray-400">
                 Leads Generated
               </div>
             </div>
-            <div>
+            <div className="text-center animate-fade-in-up delay-500">
               <div
                 className="text-4xl sm:text-5xl font-bold mb-2"
                 style={{ color: "#f8d200" }}
               >
-                98%
+                <AnimatedCounter end={98} suffix="%" />
               </div>
               <div className="text-sm sm:text-base text-gray-400">
                 Client Satisfaction
               </div>
             </div>
-            <div>
+            <div className="text-center animate-fade-in-up delay-1000">
               <div
                 className="text-4xl sm:text-5xl font-bold mb-2"
                 style={{ color: "#f8d200" }}
               >
-                45+
+                <AnimatedCounter end={45} suffix="+" />
               </div>
               <div className="text-sm sm:text-base text-gray-400">
                 Industry Awards
