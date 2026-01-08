@@ -7,12 +7,13 @@ import {
     Settings,
     ChevronLeft,
     ChevronRight,
+    Grid,
 } from "lucide-react";
 
 const menuItems = [
     { id: "dashboard", label: "Dashboard", icon: LayoutDashboard },
-    { id: "myservices", label: "My Services", icon: Briefcase },
-    { id: "myapplications", label: "My Applications", icon: FileText },
+    { id: "allservices", label: "Browse Services", icon: Grid },
+    { id: "myservices", label: "My Applications", icon: Briefcase },
     { id: "profile", label: "Profile", icon: User },
 ];
 
@@ -57,8 +58,8 @@ export default function Sidebar({ currentPage, onNavigate }) {
                                 <button
                                     onClick={() => onNavigate(item.id)}
                                     className={`w-full flex items-center gap-3 px-4 py-3 rounded-lg transition-all duration-200 ${isActive
-                                            ? "bg-yellow-400 text-black font-semibold"
-                                            : "text-gray-300 hover:bg-gray-800 hover:text-white"
+                                        ? "bg-yellow-400 text-black font-semibold"
+                                        : "text-gray-300 hover:bg-gray-800 hover:text-white"
                                         }`}
                                 >
                                     <Icon className="w-5 h-5 flex-shrink-0" />

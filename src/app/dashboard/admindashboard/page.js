@@ -4,6 +4,7 @@ import Sidebar from './components/Sidebar';
 import Header from './components/Header';
 import Panel from './Panel';
 import Services from './Services';
+import ServiceApplications from './ServiceApplications';
 import Users from './Users';
 import Jobs from './Jobs';
 import Applications from './Applications';
@@ -17,6 +18,8 @@ function admindashboard() {
         return <Panel />;
       case 'services':
         return <Services />;
+      case 'service-applications':
+        return <ServiceApplications />;
       case 'users':
         return <Users />;
       case 'jobs':
@@ -24,7 +27,7 @@ function admindashboard() {
       case 'applications':
         return <Applications />;
       default:
-        return <Dashboard />;
+        return <Panel />;
     }
   };
 
