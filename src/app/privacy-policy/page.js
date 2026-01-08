@@ -1,142 +1,144 @@
-
 import React from "react";
-
-
 
 function PrivacyPolicy() {
   return (
-    <div className="min-h-screen bg-yellow-400 text-black">
-      {/* Header Banner */}
-      <div className="bg-gradient-to-r from-red-600 to-black p-4 border-b-4 border-white/20">
-        <div className="max-w-7xl mx-auto flex flex-col md:flex-row items-center justify-between gap-6">
-          <div className="flex items-center gap-4">
-            <div className="bg-white text-red-600 font-bold p-2 text-2xl rounded-full w-16 h-16 flex items-center justify-center border-4 border-white shadow-lg">
-              d2d
-            </div>
-            <div className="leading-tight">
-              <h2 className="text-xl font-bold tracking-widest text-black">SOCIAL</h2>
-              <h2 className="text-xl font-bold tracking-widest text-black">STUDIO</h2>
-            </div>
-          </div>
+    <div className="min-h-screen bg-[#050505] text-gray-300 font-sans selection:bg-[#D4AF37] selection:text-black">
 
-          <div className="flex flex-col items-center md:items-end">
-            <p className="text-xs uppercase tracking-wider mb-2 font-semibold text-black/80">d2d YOUTHSTORY PVT. LTD. supported by:-</p>
-            <div className="flex flex-wrap justify-center gap-4 items-center mt-2">
-              {[
-                { name: "Microsoft for Startups", src: "/supported-by/microsoft.png" },
-                { name: "Startup India", src: "/supported-by/startup-india.png" },
-                { name: "MSME", src: "/supported-by/msme.png" },
-                { name: "Startup Bihar", src: "/supported-by/startup-bihar.png" },
-                { name: "DPIIT", src: "/supported-by/dpiit.png" },
-                { name: "Startup Bihar Logo", src: "/supported-by/startup-bihar-logo.png" }
-              ].map((partner, idx) => (
-                <img key={idx} src={partner.src} alt={partner.name} className="h-8 md:h-10 object-contain bg-white rounded px-1" />
-              ))}
-            </div>
-          </div>
-        </div>
+      {/* Cinematic Background Effects */}
+      <div className="fixed inset-0 z-0 pointer-events-none overflow-hidden">
+        <div className="absolute top-[-10%] left-[-10%] w-[50%] h-[50%] bg-[#D4AF37]/5 rounded-full blur-[150px] animate-pulse duration-[10000ms]"></div>
+        <div className="absolute bottom-[-10%] right-[-10%] w-[40%] h-[40%] bg-blue-900/10 rounded-full blur-[150px]"></div>
+        <div className="absolute inset-0 bg-[url('/noise.png')] opacity-[0.03]"></div>
       </div>
 
-      <div className="max-w-4xl mx-auto px-6 py-16 space-y-16">
+      {/* Main Content */}
+      <div className="relative z-10 max-w-5xl mx-auto px-6 py-24 md:py-32">
 
-        {/* Intro */}
-        <section className="grid md:grid-cols-2 gap-12 items-center">
-          <div>
-            <h1 className="text-6xl font-bold text-black mb-8 border-l-8 border-green-500 pl-6">
-              <span className="text-green-400">Privacy</span> <span className="text-green-200">Policy:</span>
-            </h1>
-            <p className="text-lg text-gray-900 leading-relaxed">
-              At <span className="font-bold text-black">D2D Social Studio</span>, we respect your privacy and are committed to protecting any information you share with us. This Privacy Policy explains how we collect, use, and safeguard your information when you visit our website.
+        {/* Header */}
+        <header className="mb-24 text-center space-y-8 animate-fade-in">
+          <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-white/5 border border-white/10 backdrop-blur-md">
+            <span className="w-1.5 h-1.5 rounded-full bg-[#D4AF37] animate-pulse"></span>
+            <span className="text-[10px] uppercase tracking-[0.3em] text-gray-400 font-semibold">Legal Documentation</span>
+          </div>
+
+          <h1 className="text-5xl md:text-8xl font-bold tracking-tighter text-white">
+            Privacy <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#FIMD37] via-[#D4AF37] to-[#aa8c2c]">Policy</span>
+          </h1>
+
+          <p className="text-lg md:text-xl text-gray-400 max-w-2xl mx-auto leading-relaxed border-t border-white/5 pt-8">
+            At <span className="text-[#D4AF37]">D2D Social Studio</span>, transparency is our currency. We respect your privacy and are committed to protecting the digital footprint you share with us.
+          </p>
+        </header>
+
+        {/* Introduction Block */}
+        <div className="grid lg:grid-cols-12 gap-8 mb-24">
+          <div className="lg:col-span-8 bg-neutral-900/30 backdrop-blur-xl border border-white/10 p-10 rounded-3xl relative group overflow-hidden">
+            <div className="absolute inset-0 bg-gradient-to-r from-[#D4AF37]/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-700"></div>
+            <h2 className="text-3xl font-bold text-white mb-6 relative z-10">Our Commitment</h2>
+            <p className="text-lg text-gray-400 leading-relaxed relative z-10">
+              This Privacy Policy explains how we collect, use, and safeguard your information when you visit our website. As a "Marketing Mafia," we operate with a code of honor—your data is strictly for business, never for betrayal.
             </p>
           </div>
-          <div className="flex justify-center">
-            <div className="relative">
-              <div className="absolute inset-0 bg-blue-500 blur-3xl opacity-20 animate-pulse"></div>
-              <div className="bg-gradient-to-br from-blue-900 to-black p-8 rounded-2xl border border-blue-500/30 shadow-2xl relative z-10 text-center">
-                <svg className="w-24 h-24 text-blue-400 mx-auto mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" />
-                </svg>
-                <h3 className="text-2xl font-bold text-blue-200">DATA PRIVACY</h3>
+          <div className="lg:col-span-4 bg-[#D4AF37] p-10 rounded-3xl flex flex-col justify-between text-black relative overflow-hidden group">
+            <div className="absolute -right-10 -top-10 w-40 h-40 bg-white/20 blur-3xl rounded-full group-hover:scale-150 transition-transform duration-700"></div>
+            <div>
+              <svg className="w-10 h-10 mb-4 opacity-80" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" />
+              </svg>
+              <h3 className="text-xl font-bold tracking-tight">Data Secure</h3>
+            </div>
+            <p className="font-medium opacity-80">Your information is guarded with industry-standard protocols.</p>
+          </div>
+        </div>
+
+        {/* Content Flow */}
+        <div className="space-y-6">
+
+          {[
+            {
+              title: "Information We Collect",
+              content: "We may collect personal information such as your name, email address, or phone number only when you choose to share it, for example through contact forms. We also collect non-personal info like browser type and IP address to optimize your experience."
+            },
+            {
+              title: "How We Use Information",
+              content: "To operate and improve our services. Your data helps us communicate with you and refine our digital strategies. We never sell your data—that's not our style."
+            },
+            {
+              title: "Data Protection",
+              content: "We employ robust technical measures to prevent unauthorized access. Limiting access to authorized personnel only is our standard operating procedure."
+            },
+            {
+              title: "Data Retention",
+              content: "We keep your info only as long as necessary. Once the job is done or the legal requirement met, we securely delete or anonymize it."
+            }
+          ].map((section, idx) => (
+            <section key={idx} className="group relative">
+              <div className="absolute -inset-[1px] bg-gradient-to-r from-[#D4AF37]/50 to-transparent rounded-2xl opacity-0 group-hover:opacity-100 transition duration-500 blur-sm"></div>
+              <div className="relative bg-[#0a0a0a] border border-white/10 p-8 md:p-10 rounded-2xl hover:bg-neutral-900 transition-colors duration-300">
+                <h2 className="text-2xl font-bold text-white mb-4 group-hover:text-[#D4AF37] transition-colors">{section.title}</h2>
+                <p className="text-gray-400 leading-relaxed">
+                  {section.content}
+                </p>
               </div>
+            </section>
+          ))}
+
+          {/* Children's Privacy */}
+          <section className="bg-neutral-900/30 border border-white/5 p-8 md:p-10 rounded-2xl mt-12">
+            <h2 className="text-xl font-bold text-white mb-4">Children's Privacy</h2>
+            <p className="text-gray-400 leading-relaxed text-sm">
+              D2D Social Studio does not knowingly collect personal information from children under 13. If we find any, we delete it immediately.
+            </p>
+          </section>
+
+          {/* GDPR */}
+          <section className="py-12">
+            <h2 className="text-2xl font-bold text-white mb-8">Your Data Rights (GDPR)</h2>
+            <div className="grid md:grid-cols-2 gap-4">
+              {[
+                'Access your personal data',
+                'Request data correction',
+                'Request data deletion',
+                'Restrict processing',
+                'Data portability',
+                'Withdraw consent'
+              ].map((right, i) => (
+                <div key={i} className="flex items-center gap-4 p-4 rounded-xl border border-white/5 bg-white/[0.02] hover:bg-white/[0.05] transition-colors">
+                  <span className="text-[#D4AF37]">•</span>
+                  <span className="text-gray-300">{right}</span>
+                </div>
+              ))}
+            </div>
+          </section>
+
+        </div>
+
+        {/* Contact / Footer */}
+        <footer className="mt-32 border-t border-white/10 pt-16 text-center">
+          <h2 className="text-4xl font-bold text-white mb-4">Your Consent</h2>
+          <p className="text-gray-500 mb-12">
+            By using <span className="text-white">D2D YouthStory</span>, you agree to these terms.
+          </p>
+
+          <a href="mailto:abc@gmail.com" className="inline-block relative group">
+            <div className="absolute -inset-1 bg-gradient-to-r from-[#D4AF37] to-[#FIMD37] rounded-full blur opacity-25 group-hover:opacity-75 transition duration-500"></div>
+            <div className="relative bg-black border border-[#D4AF37]/30 px-8 py-4 rounded-full flex items-center gap-3">
+              <span className="text-white font-bold tracking-wider">CONTACT US</span>
+              <svg className="w-4 h-4 text-[#D4AF37] group-hover:translate-x-1 transition-transform" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M14 5l7 7m0 0l-7 7m7-7H3" />
+              </svg>
+            </div>
+          </a>
+
+          <div className="mt-16 grid grid-cols-1 md:grid-cols-3 gap-8 text-xs text-gray-600 uppercase tracking-widest border-t border-white/5 pt-8">
+            <div>© 2026 D2D Social Studio</div>
+            <div><span className="text-[#D4AF37]">abc@gmail.com</span></div>
+            <div className="space-x-4">
+              <span className="hover:text-white cursor-pointer transition-colors">Privacy</span>
+              <span className="hover:text-white cursor-pointer transition-colors">Terms</span>
             </div>
           </div>
-        </section>
-
-        {/* Information We Collect */}
-        <section className="bg-gray-900/50 p-8 rounded-2xl border-l-4 border-orange-500">
-          <h2 className="text-3xl font-bold text-orange-500 mb-6">Information We Collect:</h2>
-          <p className="text-gray-900 leading-relaxed mb-4">
-            We may collect personal information such as your name, email address, or phone number <span className="text-black font-bold">only when you choose to share it</span>, for example through contact forms or inquiries.
-          </p>
-          <p className="text-gray-900 leading-relaxed">
-            We also collect non-personal information like browser type, device information, IP address, and pages visited to understand how our website is used.
-          </p>
-        </section>
-
-        {/* How We Use Your Information */}
-        <section>
-          <h2 className="text-3xl font-bold text-black mb-6">How We Use Your Information:</h2>
-          <p className="text-gray-900 leading-relaxed">
-            We use the information we collect to provide, operate, and improve our website and services. Your information helps us respond to your inquiries, communicate with you when necessary, and understand how visitors interact with our website. We use your personal information only for legitimate purposes and <span className="text-black font-bold">do not sell or misuse</span> your data.
-          </p>
-        </section>
-
-        {/* Data Protection */}
-        <section className="space-y-8">
-          <div>
-            <h2 className="text-3xl font-bold text-red-500 mb-4">Data Protection And Security-</h2>
-            <p className="text-gray-900 leading-relaxed">
-              We take reasonable technical and organizational measures to protect your personal information from unauthorized access, misuse, alteration, or loss. This includes using secure servers, limiting access to authorized personnel only, and regularly reviewing our security practices.
-            </p>
-          </div>
-          <div>
-            <h2 className="text-3xl font-bold text-black mb-4">Data Retention</h2>
-            <p className="text-gray-900 leading-relaxed">
-              We retain your personal information only for as long as it is necessary to fulfill the purposes for which it was collected, such as responding to inquiries, providing services, or complying with legal requirements. When your information is no longer needed, we take reasonable steps to securely delete or anonymize it. We do not keep personal data for longer than required and regularly review our data retention practices.
-            </p>
-          </div>
-        </section>
-
-        {/* Childrens Privacy & GDPR */}
-        <section className="space-y-8">
-          <div className="bg-white p-8 rounded-2xl border-l-4 border-blue-500">
-            <h2 className="text-3xl font-bold text-orange-400 mb-4">Children's Privacy</h2>
-            <p className="text-gray-900 leading-relaxed">
-              D2D Social Studio does not knowingly collect any personal information from children under the age of 13. We encourage parents and guardians to monitor their children's online activities. If we become aware that personal information from a child has been collected without parental consent, we will take immediate steps to remove such information from our records.
-            </p>
-          </div>
-
-          <div>
-            <h2 className="text-3xl font-bold text-black mb-6">Your Data Protection Rights (GDPR)</h2>
-            <p className="text-gray-900 mb-6">You have certain rights under the General Data Protection Regulation (GDPR). These rights are designed to give you control over your personal data.</p>
-            <ul className="space-y-4 text-gray-900">
-              {['Access the personal information we hold about you', 'Request correction of inaccurate or incomplete data', 'Request deletion of your personal data when it is no longer needed', 'Restrict or object to how we process your data', 'Request data portability, allowing you to receive your data in a usable format', 'Withdraw consent at any time where we rely on your consent'].map((item, idx) => (
-                <li key={idx} className="flex items-start gap-3">
-                  <span className="w-2 h-2 mt-2 bg-blue-500 rounded-full flex-shrink-0" />
-                  <span>{item}</span>
-                </li>
-              ))}
-            </ul>
-          </div>
-        </section>
-
-        {/* Contact */}
-        <section className="bg-gradient-to-r from-orange-600 to-orange-800 p-8 rounded-2xl text-center">
-          <h2 className="text-3xl font-bold text-black mb-4">Your Consent</h2>
-          <p className="text-black/90 mb-8 italic">
-            By using <span className="font-bold">D2D YouthStory</span>, you consent to this Privacy Policy and agree to its terms.
-          </p>
-
-          <div className="inline-block bg-white text-orange-600 font-bold px-8 py-3 rounded-full mb-8 shadow-lg">
-            CONTACT US
-          </div>
-
-          <div className="text-white/90 space-y-2">
-            <p>If you have any questions about this Privacy Policy or your data rights, you may contact us at:</p>
-            <p className="font-bold">Email: abc@gmail.com</p>
-            <p className="font-bold">Website: d2d Social Studio</p>
-          </div>
-        </section>
+        </footer>
 
       </div>
     </div>
@@ -144,4 +146,3 @@ function PrivacyPolicy() {
 }
 
 export default PrivacyPolicy;
-
