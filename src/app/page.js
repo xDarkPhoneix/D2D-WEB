@@ -50,7 +50,7 @@ export default function HomePage() {
       description:
         "Data-driven campaigns that deliver ROI. From paid ads to SEO, we maximize every dollar spent.",
       image:
-        "./hp1.jpeg",
+        "./hm0.jpeg",
       icon: TrendingUp,
     },
     {
@@ -58,7 +58,7 @@ export default function HomePage() {
       description:
         "Content that stops the scroll. Video, design, and copy that captures attention and converts.",
       image:
-        "./hp2.jpeg",
+        "./hm1.jpeg",
       icon: Zap,
     },
     {
@@ -66,7 +66,7 @@ export default function HomePage() {
       description:
         "Build communities that love your brand. Authentic engagement that drives real business outcomes.",
       image:
-        "./hp3.jpeg",
+        "./hm4.jpeg",
       icon: Users,
     },
     {
@@ -74,7 +74,7 @@ export default function HomePage() {
       description:
         "Scale faster with proven frameworks. We optimize every stage of your customer journey.",
       image:
-        "./hp4.jpeg",
+        "./hm3.jpeg",
       icon: TrendingUp,
     },
     {
@@ -82,7 +82,7 @@ export default function HomePage() {
       description:
         "Make informed decisions with deep data analysis. Track, measure, and optimize everything.",
       image:
-        "./hp5.jpeg",
+        "./hm2.jpeg",
       icon: Target,
     },
   ];
@@ -90,55 +90,56 @@ export default function HomePage() {
   return (
     <>
       {/* ================= HERO ================= */}
-      <section
-        className="pt-24 pb-20 text-black text-center transition-colors duration-500"
-        style={{
-          backgroundColor: bgImage ? "transparent" : "#f8d200",
-          backgroundImage: bgImage ? `url(${bgImage})` : "none",
-          backgroundSize: "cover",
-          backgroundPosition: "center",
-        }}
-      >
-        <h1 className="text-4xl sm:text-5xl md:text-7xl font-bold mb-6 leading-tight">
+ <section
+  className="min-h-screen pt-32 pb-28 flex flex-col justify-center text-black text-center transition-colors duration-500"
+  style={{
+    backgroundColor: bgImage ? "transparent" : "#f8d200",
+    backgroundImage: bgImage ? `url(${bgImage})` : "none",
+    backgroundSize: "cover",
+    backgroundPosition: "center",
+  }}
+>
+
+        <h1 className="text-4xl sm:text-5xl md:text-7xl  mb-6 leading-tight">
           We Are{" "}
           <span
             onMouseEnter={() =>
               setBgImage(
-                "https://images.unsplash.com/photo-1492724441997-5dc865305da7"
+                "/hero1.jpeg"
               )
             }
             onMouseLeave={() => setBgImage("")}
             className="relative px-1 md:px-2 md:cursor-pointer md:group"
           >
-            Marketing
+            <b>D2D</b>
             <span className="hidden md:block absolute left-0 -bottom-1 w-0 h-[3px] bg-black transition-all duration-300 md:group-hover:w-full"></span>
           </span>{" "}
-          Mafias
+        Social Studio
         </h1>
 
-        <p className="text-lg sm:text-xl md:text-2xl max-w-3xl mx-auto mb-8 px-4">
-          Skilled enough to know{" "}
+        <p className="text-lg sm:text-xl   md:text-5xl max-w-3xl mx-auto mb-8 px-4">
+         Smart enough to play the {" "}
           <span
             onMouseEnter={() =>
               setBgImage(
-                "https://images.unsplash.com/photo-1553877522-43269d4ea984"
+                "hero2.jpeg"
               )
             }
             onMouseLeave={() => setBgImage("")}
             className="relative font-semibold md:cursor-pointer md:group"
           >
-            better
+            <b>Game</b>
             <span className="hidden md:block absolute left-0 -bottom-1 w-0 h-[2px] bg-black transition-all duration-300 md:group-hover:w-full"></span>
           </span>
-          , wild enough to think bigger!
+          , Brave enough to change it!
         </p>
 
-        <Link
+        {/* <Link
           href="/contact"
-          className="inline-block px-8 sm:px-10 py-3 sm:py-4 bg-black text-white font-bold rounded-full transition-transform md:hover:scale-105"
+          className="inline-block w-3/4 px-8 sm:px-10 py-3 sm:py-4 bg-black text-white font-bold rounded-full transition-transform md:hover:scale-105"
         >
           Let’s Build Something Iconic
-        </Link>
+        </Link> */}
       </section>
 
       {/* Achivements section */}

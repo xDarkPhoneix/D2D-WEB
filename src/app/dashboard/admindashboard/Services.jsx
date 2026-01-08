@@ -115,7 +115,7 @@ class Services extends Component {
             "Actions",
           ]}
         >
-          {services.map((service) => (
+          {services?.map((service) => (
             <TableRow key={service._id}>
               <TableCell className="font-semibold">
                 {service.serviceName}
