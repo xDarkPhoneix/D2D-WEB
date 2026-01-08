@@ -65,14 +65,14 @@ export const mockUserApplications = [
 
 export const mockUserProfile = {
     id: "user_001",
-    name: "John Doe",
-    email: "john.doe@example.com",
+    name: "Rahul Sharma",
+    email: "rahul.sharma@example.com",
     phone: "+91 98765 43210",
     role: "Client",
     status: "active",
     joinedDate: "2024-01-01",
     location: "Mumbai, India",
-    company: "Tech Innovations Pvt Ltd",
+    company: "Sharma Enterprises Pvt Ltd",
 };
 
 export const mockUserActivities = [

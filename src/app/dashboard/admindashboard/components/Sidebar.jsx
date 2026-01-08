@@ -9,15 +9,17 @@ import {
   Settings,
   ChevronLeft,
   ChevronRight,
+  Clipboard,
 } from "lucide-react";
 
 const menuItems = [
   { id: "dashboard", label: "Dashboard", icon: LayoutDashboard },
   { id: "services", label: "Services", icon: Briefcase },
+  { id: "service-applications", label: "Service Applications", icon: Clipboard },
   { id: "users", label: "Users", icon: Users },
   { id: "jobs", label: "Job Openings", icon: FileText },
-  { id: "applications", label: "Applications", icon: ClipboardList },
-  
+  { id: "applications", label: "Job Applications", icon: ClipboardList },
+
 
 ];
 
@@ -26,9 +28,8 @@ export default function Sidebar({ currentPage, onNavigate }) {
 
   return (
     <aside
-      className={`bg-black text-white transition-all duration-300 ease-in-out ${
-        collapsed ? "w-20" : "w-64"
-      } min-h-screen fixed left-0 top-0 z-40 flex flex-col`}
+      className={`bg-black text-white transition-all duration-300 ease-in-out ${collapsed ? "w-20" : "w-64"
+        } min-h-screen fixed left-0 top-0 z-40 flex flex-col`}
     >
       {/* Header */}
       <div className="p-6 flex items-center justify-between border-b border-gray-800">
@@ -62,11 +63,10 @@ export default function Sidebar({ currentPage, onNavigate }) {
               <li key={item.id}>
                 <button
                   onClick={() => onNavigate(item.id)}
-                  className={`w-full flex items-center gap-3 px-4 py-3 rounded-lg transition-all duration-200 ${
-                    isActive
+                  className={`w-full flex items-center gap-3 px-4 py-3 rounded-lg transition-all duration-200 ${isActive
                       ? "bg-yellow-400 text-black font-semibold"
                       : "text-gray-300 hover:bg-gray-800 hover:text-white"
-                  }`}
+                    }`}
                 >
                   <Icon className="w-5 h-5 flex-shrink-0" />
                   {!collapsed && <span>{item.label}</span>}
