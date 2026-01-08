@@ -1,9 +1,11 @@
 "use client";
 import Link from "next/link";
 import React, { useState } from "react";
+import JobDetailsModal from "./JobDetailsModel";
 
 function Careers() {
   const [activeIndex, setActiveIndex] = useState(0);
+  const [openJob, setOpenJob] = useState(false);
 
   const items = [
     {
@@ -73,6 +75,35 @@ function Careers() {
           </div>
         </div>
       </section>
+
+      {/* ================= CURRENT OPENINGS ================= */}
+      <section className="bg-white py-24">
+        <div className="max-w-6xl mx-auto px-6">
+          <h2 className="text-4xl font-bold text-center mb-12">
+            Current Openings
+          </h2>
+
+          {/* JOB ITEM */}
+          <div className="border-b py-6 flex justify-between items-center">
+            <div>
+              <h3 className="text-xl font-semibold">
+                Associate Brand Solutions Manager (1–2 years)
+              </h3>
+              <p className="text-gray-600">Permanent • Brand Solutions</p>
+            </div>
+
+            <button
+              onClick={() => setOpenJob(true)}
+              className="bg-[#e1bb08] px-6 py-2 rounded-full font-medium hover:bg-black hover:text-white transition"
+            >
+              View Details →
+            </button>
+          </div>
+        </div>
+      </section>
+
+      {/* ================= MODAL ================= */}
+      {openJob && <JobDetailsModal onClose={() => setOpenJob(false)} />}
     </>
   );
 }
