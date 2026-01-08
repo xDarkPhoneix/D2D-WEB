@@ -41,7 +41,7 @@ function admindashboard() {
   };
 
   return (
-    <div className="min-h-screen bg-gray-50">
+    <div className="min-h-screen bg-gray-50 ">
       <Sidebar currentPage={currentPage} onNavigate={setCurrentPage} />
       <div className="pl-64">
         <Header />

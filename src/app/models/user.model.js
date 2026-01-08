@@ -2,6 +2,10 @@ import mongoose from "mongoose";
 
 const userSchema = new mongoose.Schema(
   {
+    name: {
+      type: String,
+      trim: true,
+    },
     email: {
       type: String,
       required: true,
@@ -18,7 +22,6 @@ const userSchema = new mongoose.Schema(
       default: "user",
       enum: ["user", "admin", "superadmin", "projectmanager"],
     },
-
     //admin only attributes
     isVerified: {
       type: Boolean,

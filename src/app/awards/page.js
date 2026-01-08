@@ -163,8 +163,8 @@ export default function Awards() {
                     key={cat.id}
                     onClick={() => setSelectedCategory(cat.id)}
                     className={`flex items-center gap-2 px-6 py-3 rounded-full font-semibold transition-all ${selectedCategory === cat.id
-                        ? 'bg-black text-[#F8D200]'
-                        : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
+                      ? 'bg-black text-[#F8D200]'
+                      : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
                       }`}
                   >
                     <Icon className="w-4 h-4" />
@@ -181,8 +181,8 @@ export default function Awards() {
                   key={year}
                   onClick={() => setSelectedYear(year)}
                   className={`px-6 py-3 rounded-full font-semibold transition-all ${selectedYear === year
-                      ? 'gradient-yellow text-black'
-                      : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
+                    ? 'gradient-yellow text-black'
+                    : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
                     }`}
                 >
                   {year === 'all' ? 'All Years' : year}
