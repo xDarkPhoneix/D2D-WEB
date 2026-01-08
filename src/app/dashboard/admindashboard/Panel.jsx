@@ -8,11 +8,34 @@ import {
   monthlyUserGrowth,
   serviceRequests,
 } from "./mockdata.js";
+import { useEffect } from "react";
+import adminservice from "@/app/adminapiservice/admin-service";
+import { useSession } from "next-auth/react";
+import Header from "./components/Header";
 
 export default function Panel() {
+
+    const { data: session, status } = useSession();
+
+
+    
+    const getCount=async()=>{
+       const data=await adminservice.getTotalCount()
+       console.log(data);
+       
+
+       return data
+    }
+   
+    useEffect(()=>{
+       
+    //  getCount()
+
+    },[])
+
   return (
     <div className="space-y-6">
-      {/* Header */}
+      <Header/>
       <div>
         <h1 className="text-3xl font-bold text-gray-900 mb-2">
           Dashboard
