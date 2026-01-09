@@ -43,7 +43,7 @@ function Header() {
               { href: "/awards", label: "AWARDS", icon: "🏆" },
               { href: "/client", label: "CLIENTS", icon: "🤝" },
               { href: "/careers", label: "CAREERS", icon: "🚀" },
-              { href: "/privacy-policy", label: "PRIVACY POLICY", icon: "🔒" },
+              { href: "/costcalculator", label: "COST CALCULATOR", icon: "🔒" },
               { href: "/contact", label: "CONTACT", icon: "📩" },
             ].map((item) => (
               <Link
