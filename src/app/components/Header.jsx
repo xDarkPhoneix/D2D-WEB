@@ -7,6 +7,16 @@ import { useSession, signIn, signOut } from "next-auth/react";
 function Header() {
   const { data: session, status } = useSession();
   const [isOpen, setIsOpen] = useState(false);
+   const navItems = [
+    { href: "/about", label: "ABOUT" },
+    { href: "/our-work", label: "OUR WORK" },
+    { href: "/services", label: "SERVICES" },
+    { href: "/awards", label: "AWARDS" },
+    { href: "/client", label: "CLIENTS" },
+    { href: "/careers", label: "CAREERS" },
+    { href: "/privacy-policy", label: "PRIVACY POLICY" },
+    { href: "/contact", label: "CONTACT" },
+  ];
 
   const isLoggedIn = status === "authenticated";
 
@@ -95,8 +105,65 @@ function Header() {
           >
             ☰
           </button>
+          
         </div>
       </div>
+
+      {/* ✅ MOBILE DRAWER */}
+      {isOpen && (
+        <div className="md:hidden bg-background border-t border-border">
+          <div className="flex flex-col px-6 py-4 space-y-4">
+
+            {navItems.map((item) => (
+              <Link
+                key={item.href}
+                href={item.href}
+                onClick={() => setIsOpen(false)}
+                className="text-sm font-medium"
+              >
+                {item.label}
+              </Link>
+            ))}
+
+            <hr />
+
+            {status !== "loading" && (
+              !isLoggedIn ? (
+                <button
+                  onClick={() => {
+                    signIn();
+                    setIsOpen(false);
+                  }}
+                  className="text-left font-medium"
+                >
+                  LOGIN
+                </button>
+              ) : (
+                <>
+                  <Link
+                    href="/dashboard"
+                    onClick={() => setIsOpen(false)}
+                  >
+                    DASHBOARD
+                  </Link>
+
+                  <button
+                    onClick={() => {
+                      signOut({ callbackUrl: "/login" });
+                      setIsOpen(false);
+                    }}
+                    className="text-left"
+                  >
+                    LOGOUT
+                  </button>
+                </>
+              )
+            )}
+          </div>
+        </div>
+      )}
+
+      
     </nav>
   );
 }
