@@ -16,7 +16,8 @@ export default function LoginPage() {
   useEffect(() => {
     if (status === "authenticated" && session?.user?.role) {
       const redirectUrl =
-        session.user.role === "admin"
+         session.user.role === "admin" ||
+         session.user.role === "superadmin"
           ? "/dashboard/admindashboard"
           : "/dashboard/userdashboard";
 

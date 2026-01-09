@@ -15,10 +15,13 @@ function Dashboard() {
       // Not authenticated, redirect to login
       router.push('/login');
       return;
-    }
+    } 
+
+    console.log(session);
+    
 
     // Redirect based on role
-    if (session.user.role === "admin") {
+    if (session.user.role === "admin" || "superadmin") {
       router.push('/dashboard/admindashboard');
     } else {
       router.push('/dashboard/userdashboard');

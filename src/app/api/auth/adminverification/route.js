@@ -10,7 +10,7 @@ export async function POST(req) {
   
 
   // 🔐 Only superadmin allowed
-  if (!token || token.role !== "admin") {
+  if (!token || token.role !== "superadmin") {
     return NextResponse.json(
       { error: "Unauthorized" },
       { status: 403 }
