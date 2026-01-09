@@ -1,7 +1,5 @@
 const mongoose = require('mongoose');
 
-const MONGODB_URL = "mongodb+srv://d2d:d2d@cluster0.p4itu.mongodb.net/d2d?retryWrites=true&w=majority";
-
 const pricingRuleSchema = new mongoose.Schema({
     ruleName: { type: String, required: true },
     isActive: { type: Boolean, default: false },
@@ -30,7 +28,7 @@ const PricingRule = mongoose.models.PricingRule || mongoose.model('PricingRule',
 
 async function seed() {
     try {
-        await mongoose.connect(MONGODB_URL);
+        await mongoose.connect(process.env.MONGODB_URL);
         console.log('Connected to DB');
 
         // Check if any rule exists
