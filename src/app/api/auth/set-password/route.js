@@ -34,6 +34,7 @@ export async function POST(req) {
 
   user.password = await bcrypt.hash(password, 10);
   user.provider = "credentials";
+
   await user.save();
 
   return NextResponse.json({ message: "Password set successfully" });

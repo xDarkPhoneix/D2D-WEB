@@ -10,29 +10,28 @@ import {
   Users,
   Zap,
 } from "lucide-react";
+import AnimatedCounter from "./components/AnimatedCounter";
+
 export default function HomePage() {
   const [bgImage, setBgImage] = useState("");
 
   const cards = [
     {
-      title:
-        "Turn your brand into the name everyone’s talking about.",
-      line1:"Visibility, trust, and conversions that actually work..",
-      image: "/AA21.png",
+      title: "Turn your brand into the name everyone’s talking about.",
+      line1: "Visibility, trust, and conversions that actually work..",
+      image: "iol.png",
       bg: "bg-[#c32126]", // red
     },
     {
-      title:
-        "Don’t miss the chance to do your best work ever. ",
-          line1:"Join the bold minds building D2D Digital Studio.",
-      image: "./hma2.png",
+      title: "Don’t miss the chance to do your best work ever. ",
+      line1: "Join the bold minds building D2D Digital Studio.",
+      image: "./iol2.png",
       bg: "bg-[#1f7ae0]", // blue
     },
     {
-      title:
-        "Love digital storytelling and growth marketing? ",
-          line1:"Subscribe for insights, trends, and strategies from our studio.",
-      image: "/hh.jpeg",
+      title: "Love digital storytelling and growth marketing? ",
+      line1: "Subscribe for insights, trends, and strategies from our studio.",
+      image: "/iol3.png",
       bg: "bg-[#0f9d58]", // green
     },
   ];
@@ -49,40 +48,35 @@ export default function HomePage() {
       title: "Digital Marketing",
       description:
         "Data-driven campaigns that deliver ROI. From paid ads to SEO, we maximize every dollar spent.",
-      image:
-        "./hm0.jpeg",
+      image: "./hm0.jpeg",
       icon: TrendingUp,
     },
     {
       title: "Creative Production",
       description:
         "Content that stops the scroll. Video, design, and copy that captures attention and converts.",
-      image:
-        "./hm1.jpeg",
+      image: "./hm1.jpeg",
       icon: Zap,
     },
     {
       title: "Social Media",
       description:
         "Build communities that love your brand. Authentic engagement that drives real business outcomes.",
-      image:
-        "./hm4.jpeg",
+      image: "./hm4.jpeg",
       icon: Users,
     },
     {
       title: "Growth Marketing",
       description:
         "Scale faster with proven frameworks. We optimize every stage of your customer journey.",
-      image:
-        "./hm3.jpeg",
+      image: "./hm3.jpeg",
       icon: TrendingUp,
     },
     {
       title: "Analytics & Insights",
       description:
         "Make informed decisions with deep data analysis. Track, measure, and optimize everything.",
-      image:
-        "./hm2.jpeg",
+      image: "./hm2.jpeg",
       icon: Target,
     },
   ];
@@ -90,41 +84,32 @@ export default function HomePage() {
   return (
     <>
       {/* ================= HERO ================= */}
- <section
-  className="min-h-screen pt-32 pb-28 flex flex-col justify-center text-black text-center transition-colors duration-500"
-  style={{
-    backgroundColor: bgImage ? "transparent" : "#f8d200",
-    backgroundImage: bgImage ? `url(${bgImage})` : "none",
-    backgroundSize: "cover",
-    backgroundPosition: "center",
-  }}
->
-
+      <section
+        className="min-h-screen pt-32 pb-28 flex flex-col justify-center text-black text-center transition-colors duration-500"
+        style={{
+          backgroundColor: bgImage ? "transparent" : "#f8d200",
+          backgroundImage: bgImage ? `url(${bgImage})` : "none",
+          backgroundSize: "cover",
+          backgroundPosition: "center",
+        }}
+      >
         <h1 className="text-4xl sm:text-5xl md:text-7xl  mb-6 leading-tight">
           We Are{" "}
           <span
-            onMouseEnter={() =>
-              setBgImage(
-                "/hero1.jpeg"
-              )
-            }
+            onMouseEnter={() => setBgImage("/hero1.jpeg")}
             onMouseLeave={() => setBgImage("")}
             className="relative px-1 md:px-2 md:cursor-pointer md:group"
           >
             <b>D2D</b>
             <span className="hidden md:block absolute left-0 -bottom-1 w-0 h-[3px] bg-black transition-all duration-300 md:group-hover:w-full"></span>
           </span>{" "}
-        Social Studio
+          Social Studio
         </h1>
 
         <p className="text-lg sm:text-xl   md:text-5xl max-w-3xl mx-auto mb-8 px-4">
-         Smart enough to play the {" "}
+          Smart enough to play the{" "}
           <span
-            onMouseEnter={() =>
-              setBgImage(
-                "hero2.jpeg"
-              )
-            }
+            onMouseEnter={() => setBgImage("hero2.jpeg")}
             onMouseLeave={() => setBgImage("")}
             className="relative font-semibold md:cursor-pointer md:group"
           >
@@ -134,57 +119,65 @@ export default function HomePage() {
           , Brave enough to change it!
         </p>
 
-        {/* <Link
-          href="/contact"
-          className="inline-block w-3/4 px-8 sm:px-10 py-3 sm:py-4 bg-black text-white font-bold rounded-full transition-transform md:hover:scale-105"
-        >
-          Let’s Build Something Iconic
-        </Link> */}
+        <div className="flex flex-col sm:flex-row gap-4 justify-center mt-8">
+          <Link
+            href="/login"
+            className="inline-block px-8 sm:px-10 py-3 sm:py-4 bg-black text-white font-bold rounded-full transition-transform md:hover:scale-105 border-2 border-black"
+          >
+            Login
+          </Link>
+          <Link
+            href="/register"
+            className="inline-block px-8 sm:px-10 py-3 sm:py-4 bg-white text-black font-bold rounded-full transition-transform md:hover:scale-105 border-2 border-black hover:bg-gray-100"
+          >
+            Register
+          </Link>
+        </div>
       </section>
 
-      {/* Achivements section */}
-      <section className="py-16  mt-17 sm:py-24 px-4 sm:px-6 lg:px-8 bg-black text-white">
+      {/* Achievements section */}
+      <section className="py-16 mt-17 sm:py-24 px-4 sm:px-6 lg:px-8 bg-black text-white">
         <div className="max-w-7xl mx-auto">
           <div className="grid grid-cols-2 lg:grid-cols-4 gap-8 sm:gap-12">
-            <div>
+            <div className="text-center animate-fade-in-up ">
               <div
                 className="text-4xl sm:text-5xl font-bold mb-2"
                 style={{ color: "#f8d200" }}
               >
-                200+
+                <AnimatedCounter end={200} suffix="+" />
               </div>
-              <div className="text-sm sm:text-base text-gray-400">
+              <div className="text-sm  sm:text-base text-gray-400">
                 Brands Launched
               </div>
             </div>
-            <div>
+            <div className="text-center animate-fade-in-up delay-200">
               <div
                 className="text-4xl sm:text-5xl font-bold mb-2"
                 style={{ color: "#f8d200" }}
               >
-                3.5M+
+                <AnimatedCounter end={3.5} suffix="M+" decimals={1} />
               </div>
               <div className="text-sm sm:text-base text-gray-400">
                 Leads Generated
               </div>
             </div>
-            <div>
+            <div className="text-center animate-fade-in-up delay-500">
               <div
                 className="text-4xl sm:text-5xl font-bold mb-2"
                 style={{ color: "#f8d200" }}
               >
-                98%
+                <AnimatedCounter end={98} suffix="%" />
               </div>
               <div className="text-sm sm:text-base text-gray-400">
                 Client Satisfaction
               </div>
             </div>
-            <div>
+            <div className="text-center animate-fade-in-up delay-1000">
               <div
                 className="text-4xl sm:text-5xl font-bold mb-2"
                 style={{ color: "#f8d200" }}
               >
-                45+
+                <AnimatedCounter end={45} suffix="+" />
               </div>
               <div className="text-sm sm:text-base text-gray-400">
                 Industry Awards

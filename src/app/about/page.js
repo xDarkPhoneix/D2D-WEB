@@ -2,111 +2,101 @@
 
 import { useState, useEffect } from 'react';
 import Image from 'next/image';
+import { ArrowRight, Target, Globe, Zap, BarChart2 } from 'lucide-react';
 
 export default function AboutPage() {
   const [activeService, setActiveService] = useState(0);
 
   const services = [
     {
-      name: 'Strategy',
-      icon: '🎯',
-      description: 'Data-driven planning for measurable growth'
+      name: 'Tech & Web',
+      icon: <Globe className="w-12 h-12" />,
+      description: 'Building robust digital infrastructure & automation',
+      gradient: 'from-blue-500 to-cyan-400'
     },
     {
-      name: 'Content',
-      icon: '✨',
-      description: 'Stories that convert attention into action'
+      name: 'Media & Creative',
+      icon: <Zap className="w-12 h-12" />,
+      description: 'Crafting compelling narratives & visual excellence',
+      gradient: 'from-purple-500 to-pink-400'
     },
     {
-      name: 'Production',
-      icon: '🎬',
-      description: 'Premium visuals that demand attention'
+      name: 'Growth Marketing',
+      icon: <Target className="w-12 h-12" />,
+      description: 'Data-driven strategies to scale your reach',
+      gradient: 'from-orange-500 to-red-400'
     },
     {
       name: 'Analytics',
-      icon: '📊',
-      description: 'Real-time insights for smarter decisions'
+      icon: <BarChart2 className="w-12 h-12" />,
+      description: 'Real-time insights for smarter business decisions',
+      gradient: 'from-green-500 to-emerald-400'
     }
   ];
 
   useEffect(() => {
     const interval = setInterval(() => {
       setActiveService((prev) => (prev + 1) % services.length);
-    }, 3000);
+    }, 4000);
     return () => clearInterval(interval);
   }, [services.length]);
 
   return (
-    <main className="min-h-screen bg-[#0B0F14] overflow-hidden">
+    <main className="min-h-screen bg-[#050505] overflow-x-hidden text-white font-sans selection:bg-[#CE182A] selection:text-white">
+
       {/* Hero Section - Attention */}
-      <section className="relative min-h-screen flex items-center py-20 px-6 lg:px-16">
-        {/* Animated Background Elements */}
-        <div className="absolute inset-0 overflow-hidden">
-          <div className="absolute top-20 right-0 w-96 h-96 bg-[#CE182A]/10 rounded-full blur-3xl animate-pulse" />
-          <div className="absolute bottom-20 left-0 w-96 h-96 bg-[#CE182A]/5 rounded-full blur-3xl animate-pulse delay-1000" />
+      <section className="relative min-h-screen flex items-center justify-center py-20 px-6 lg:px-16 overflow-hidden">
+        {/* Animated Background */}
+        <div className="absolute inset-0">
+          <div className="absolute top-[-20%] right-[-10%] w-[800px] h-[800px] bg-[#CE182A]/10 rounded-full blur-[120px] animate-pulse" />
+          <div className="absolute bottom-[-20%] left-[-10%] w-[600px] h-[600px] bg-blue-600/5 rounded-full blur-[100px] animate-pulse delay-700" />
+
         </div>
 
-        <div className="max-w-7xl mx-auto w-full relative z-10">
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
-            {/* Left Column - Main Content */}
-            <div className="space-y-8">
-              <div className="space-y-3">
-                <h1 className="text-6xl lg:text-7xl font-bold text-white tracking-tight animate-fade-in">
-                  Attention
-                </h1>
-                <p className="text-[#9CA3AF] text-sm tracking-widest opacity-80">
-                  /əˈtenʃən/
-                </p>
-              </div>
-
-              <div className="space-y-6 text-[#9CA3AF] text-lg leading-relaxed max-w-xl">
-                <p className="animate-slide-in-bottom">
-                  The most valuable asset in the digital economy — and the most misunderstood.
-                </p>
-                <p className="animate-slide-in-bottom delay-200">
-                  Attention is what turns brands into movements, content into demand, and visibility into growth.
-                </p>
-                <p className="animate-slide-in-bottom delay-500">
-                  At D2D Social Studio, we don't chase attention. We engineer it — through systems, strategy, and storytelling built for scale.
-                </p>
-              </div>
-
-              <div className="flex gap-4 pt-4">
-                <a
-                  href="/contact"
-                  className="bg-[#CE182A] text-white px-8 py-4 rounded-full font-semibold hover:bg-[#a51422] transition-all duration-300 shadow-lg hover:shadow-2xl hover:scale-105 transform"
-                >
-                  Start Your Project
-                </a>
-                <a
-                  href="/our-work"
-                  className="border-2 border-white/20 text-white px-8 py-4 rounded-full font-semibold hover:bg-white/10 transition-all duration-300"
-                >
-                  View Our Work
-                </a>
-              </div>
+        <div className="max-w-7xl mx-auto w-full relative z-10 grid lg:grid-cols-2 gap-20 items-center">
+          <div className="space-y-10">
+            <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-white/5 border border-white/10 backdrop-blur-md">
+              <span className="w-2 h-2 rounded-full bg-[#CE182A] animate-pulse"></span>
+              <span className="text-sm font-medium tracking-wide text-gray-300">ATTENTION INFRASTRUCTURE PLATFORM</span>
             </div>
 
-            {/* Right Column - Floating Images */}
-            <div className="relative h-[600px] hidden lg:block">
-              <div className="absolute top-0 right-0 w-72 h-72 transform rotate-6 hover:rotate-0 transition-transform duration-700">
-                <div className="relative w-full h-full rounded-2xl overflow-hidden shadow-2xl">
-                  <Image
-                    src="/about/Screenshot 2026-01-06 114024.png"
-                    alt="About D2D"
-                    fill
-                    className="object-cover"
-                  />
-                </div>
+            <div className="space-y-6">
+              <h1 className="text-7xl lg:text-8xl font-bold tracking-tighter leading-[0.9]">
+                We Engineer <br />
+                <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#CE182A] via-[#FF4D4D] to-[#CE182A] animate-gradient-x">
+                  Attention.
+                </span>
+              </h1>
+              <p className="text-xl text-gray-400 max-w-xl leading-relaxed">
+                In the digital economy, attention is the only currency that matters. We don't just capture it; we build the systems that sustain it.
+              </p>
+            </div>
+
+            <div className="flex flex-wrap gap-6">
+              <a href="/contact" className="group relative px-8 py-4 bg-[#CE182A] rounded-full overflow-hidden transition-all hover:scale-105 hover:shadow-[0_0_40px_rgba(206,24,42,0.4)]">
+                <span className="relative z-10 font-bold flex items-center gap-2">
+                  Start Project <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
+                </span>
+              </a>
+              <a href="/our-work" className="px-8 py-4 rounded-full border border-white/20 hover:bg-white/5 transition-all font-medium backdrop-blur-sm">
+                View Case Studies
+              </a>
+            </div>
+          </div>
+
+          {/* Abstract Visual */}
+          <div className="relative h-[600px] hidden lg:flex items-center justify-center">
+            <div className="relative w-full h-full">
+              {/* Floating Cards simulating layers of attention */}
+              <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-80 h-96 bg-gradient-to-br from-gray-900 to-black rounded-2xl border border-white/10 shadow-2xl rotate-[-6deg] z-10 overflow-hidden group hover:rotate-0 transition-all duration-700">
+                <Image src="/services0.jpeg" alt="Layer 1" fill className="object-cover opacity-60 group-hover:opacity-80 transition-opacity" />
               </div>
-              <div className="absolute bottom-20 right-20 w-64 h-64 transform -rotate-6 hover:rotate-0 transition-transform duration-700 delay-200">
-                <div className="relative w-full h-full rounded-2xl overflow-hidden shadow-2xl">
-                  <Image
-                    src="/about/Screenshot 2026-01-06 140235.png"
-                    alt="About D2D"
-                    fill
-                    className="object-cover"
-                  />
+              <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-80 h-96 bg-gray-900 rounded-2xl border border-white/10 shadow-2xl rotate-[6deg] z-20 overflow-hidden group hover:rotate-0 transition-all duration-700 hover:scale-105">
+                <Image src="/services1.jpeg" alt="Layer 2" fill className="object-cover opacity-80 group-hover:opacity-100 transition-opacity" />
+                <div className="absolute inset-0 bg-gradient-to-t from-black via-transparent to-transparent opacity-80"></div>
+                <div className="absolute bottom-6 left-6">
+                  <p className="text-[#CE182A] font-bold text-sm tracking-widest">STRATEGY</p>
+                  <h3 className="text-2xl font-bold">Narrative Architecture</h3>
                 </div>
               </div>
             </div>
@@ -114,68 +104,75 @@ export default function AboutPage() {
         </div>
       </section>
 
-      {/* Plan, Create and Scale Section */}
-      <section className="py-24 px-6 lg:px-16 border-t border-white/10 bg-gradient-to-b from-transparent to-white/5">
-        <div className="max-w-7xl mx-auto">
-          <div className="text-center max-w-4xl mx-auto space-y-8">
-            <h2 className="text-4xl lg:text-5xl font-bold text-white">
-              Plan, Create and <span className="text-[#CE182A]">Scale</span>.
+
+      {/* Philosophy Section */}
+      <section className="py-32 bg-black relative border-t border-white/5">
+        <div className="max-w-7xl mx-auto px-6 lg:px-16">
+          <div className="grid md:grid-cols-3 gap-12 border-b border-white/10 pb-20 mb-20">
+            <div>
+              <h3 className="text-4xl font-bold mb-6">Plan.</h3>
+              <p className="text-gray-400 text-lg leading-relaxed">
+                We don't guess. We analyze data patterns to build architectural blueprints for your brand's digital presence.
+              </p>
+            </div>
+            <div>
+              <h3 className="text-4xl font-bold mb-6 text-[#CE182A]">Create.</h3>
+              <p className="text-gray-400 text-lg leading-relaxed">
+                Production that stops the scroll. We craft visual languages that speak directly to user psychology.
+              </p>
+            </div>
+            <div>
+              <h3 className="text-4xl font-bold mb-6">Scale.</h3>
+              <p className="text-gray-400 text-lg leading-relaxed">
+                Systems designed for exponential growth. We turn one-time viewers into lifetime advocates.
+              </p>
+            </div>
+          </div>
+
+          <div className="text-center max-w-4xl mx-auto">
+            <h2 className="text-4xl lg:text-5xl font-bold mb-8">
+              "We don't run disconnected campaigns. We engineer <span className="text-[#CE182A] inline-block border-b-4 border-[#CE182A]">systems</span>."
             </h2>
-
-            <div className="space-y-6 text-[#9CA3AF] text-lg leading-relaxed">
-              <p>
-                We are an Attention Infrastructure Platform that helps brands design, build, and scale attention systems across digital and offline ecosystems.
-              </p>
-              <p>
-                We don't run disconnected campaigns. We engineer structured growth using strategy, content, production, distribution, and analytics — all powered through transparent systems, dashboards, and measurable outcomes.
-              </p>
-            </div>
-
-            {/* Visual Divider */}
-            <div className="flex justify-center gap-2 pt-8">
-              <div className="h-1 w-20 bg-[#CE182A] rounded-full" />
-              <div className="h-1 w-20 bg-[#CE182A]/50 rounded-full" />
-              <div className="h-1 w-20 bg-[#CE182A]/25 rounded-full" />
-            </div>
+            <div className="h-20 w-[1px] bg-gradient-to-b from-[#CE182A] to-transparent mx-auto mt-12"></div>
           </div>
         </div>
       </section>
 
-      {/* Services Section - Interactive Cards */}
-      <section className="py-24 px-6 lg:px-16">
+      {/* Services Showcase */}
+      <section className="py-32 px-6 lg:px-16 bg-[#080808]">
         <div className="max-w-7xl mx-auto">
-          <h3 className="text-3xl font-bold text-white text-center mb-16">
-            Our Services
-          </h3>
+          <div className="flex flex-col md:flex-row justify-between items-end mb-16 gap-6">
+            <div>
+              <h2 className="text-3xl lg:text-5xl font-bold mb-4">Our Ecosystem</h2>
+              <p className="text-gray-400">Comprehensive capabilities for the modern digital landscape.</p>
+            </div>
+            <a href="/services" className="text-[#CE182A] font-bold hover:text-white transition-colors flex items-center gap-2">
+              Explore All Services <ArrowRight className="w-4 h-4" />
+            </a>
+          </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+          <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
             {services.map((service, index) => (
               <div
                 key={index}
-                className={`relative group cursor-pointer transition-all duration-500 ${activeService === index ? 'scale-105' : ''
-                  }`}
+                className={`group relative p-8 rounded-2xl bg-white/5 border border-white/5 hover:border-white/10 transition-all duration-500 hover:-translate-y-2 overflow-hidden ${activeService === index ? 'ring-1 ring-[#CE182A]/50 bg-white/[0.07]' : ''}`}
                 onMouseEnter={() => setActiveService(index)}
               >
-                <div className="relative bg-gradient-to-br from-white/10 to-white/5 backdrop-blur-sm border border-white/10 rounded-2xl p-8 h-full hover:border-[#CE182A]/50 transition-all duration-300">
-                  {/* Animated Background */}
-                  <div className={`absolute inset-0 bg-gradient-to-br from-[#CE182A]/20 to-transparent rounded-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-500`} />
+                <div className={`absolute inset-0 bg-gradient-to-br ${service.gradient} opacity-0 group-hover:opacity-5 transition-opacity duration-500`}></div>
 
-                  <div className="relative z-10 space-y-4">
-                    <div className="text-6xl mb-4 transform group-hover:scale-110 transition-transform duration-300">
-                      {service.icon}
-                    </div>
-                    <h4 className="text-2xl font-bold text-white">
-                      {service.name}
-                    </h4>
-                    <p className="text-[#9CA3AF] text-sm leading-relaxed">
-                      {service.description}
-                    </p>
+                <div className="relative z-10">
+                  <div className="mb-6 p-4 rounded-xl bg-black/50 w-fit text-white group-hover:text-[#CE182A] transition-colors border border-white/5">
+                    {service.icon}
                   </div>
 
-                  {/* Active Indicator */}
-                  {activeService === index && (
-                    <div className="absolute -bottom-2 left-1/2 -translate-x-1/2 w-12 h-1 bg-[#CE182A] rounded-full animate-fade-in" />
-                  )}
+                  <h3 className="text-2xl font-bold mb-3">{service.name}</h3>
+                  <p className="text-gray-400 text-sm leading-relaxed mb-6">
+                    {service.description}
+                  </p>
+
+                  <div className="w-8 h-8 rounded-full border border-white/20 flex items-center justify-center group-hover:bg-[#CE182A] group-hover:border-[#CE182A] transition-all">
+                    <ArrowRight className="w-4 h-4 -rotate-45 group-hover:rotate-0 transition-transform" />
+                  </div>
                 </div>
               </div>
             ))}
@@ -183,158 +180,47 @@ export default function AboutPage() {
         </div>
       </section>
 
-      {/* Client Success Section with Images */}
-      <section className="py-24 px-6 lg:px-16 border-t border-white/10">
-        <div className="max-w-7xl mx-auto">
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
-            {/* Left - Images Grid */}
-            <div className="grid grid-cols-2 gap-4">
-              <div className="space-y-4">
-                <div className="relative aspect-square rounded-2xl overflow-hidden group">
-                  <Image
-                    src="/about/Screenshot 2026-01-06 140300.png"
-                    alt="Client Success"
-                    fill
-                    className="object-cover group-hover:scale-110 transition-transform duration-700"
-                  />
-                  <div className="absolute inset-0 bg-gradient-to-t from-[#CE182A]/60 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
-                </div>
-                <div className="relative aspect-square rounded-2xl overflow-hidden group">
-                  <Image
-                    src="/about/Screenshot 2026-01-06 140320.png"
-                    alt="Client Success"
-                    fill
-                    className="object-cover group-hover:scale-110 transition-transform duration-700"
-                  />
-                  <div className="absolute inset-0 bg-gradient-to-t from-[#CE182A]/60 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
-                </div>
-              </div>
-              <div className="space-y-4 pt-8">
-                <div className="relative aspect-square rounded-2xl overflow-hidden group">
-                  <Image
-                    src="/about/Screenshot 2026-01-06 114024.png"
-                    alt="Client Success"
-                    fill
-                    className="object-cover group-hover:scale-110 transition-transform duration-700"
-                  />
-                  <div className="absolute inset-0 bg-gradient-to-t from-[#CE182A]/60 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
-                </div>
-                <div className="relative aspect-square rounded-2xl overflow-hidden group">
-                  <Image
-                    src="/about/Screenshot 2026-01-06 140235.png"
-                    alt="Client Success"
-                    fill
-                    className="object-cover group-hover:scale-110 transition-transform duration-700"
-                  />
-                  <div className="absolute inset-0 bg-gradient-to-t from-[#CE182A]/60 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
-                </div>
+      {/* Visual Gallery */}
+      <section className="py-20 overflow-hidden">
+        <div className="flex gap-6 animate-scroll-left hover:pause">
+          {[...Array(6)].map((_, i) => (
+            <div key={i} className="relative w-[400px] h-[300px] flex-shrink-0 rounded-xl overflow-hidden grayscale hover:grayscale-0 transition-all duration-500">
+              <Image
+                src={`/services${i}.jpeg`}
+                alt="Gallery"
+                fill
+                className="object-cover hover:scale-110 transition-transform duration-700"
+              />
+              <div className="absolute inset-0 bg-gradient-to-t from-black/80 to-transparent opacity-0 hover:opacity-100 transition-opacity flex items-end p-6">
+                <span className="text-white font-bold tracking-widest text-sm">PROJECT {i + 1}</span>
               </div>
             </div>
-
-            {/* Right - Content */}
-            <div className="space-y-8">
-              <h2 className="text-4xl lg:text-5xl font-bold text-white">
-                Client Success
-              </h2>
-
-              <div className="space-y-6 text-[#9CA3AF] text-lg leading-relaxed">
-                <p>
-                  We focus on clarity, performance, and measurable impact.
-                </p>
-                <p>
-                  Every idea, system, and execution is designed to solve real business problems — not just look good on the surface.
-                </p>
-                <p>
-                  At D2D Social Studio, success is defined by results our clients can see, track, and scale with confidence. We believe trust is earned through consistency, transparency, and outcomes that compound over time.
-                </p>
-              </div>
-
-              {/* Stats */}
-              <div className="grid grid-cols-3 gap-6 pt-8">
-                <div className="text-center">
-                  <div className="text-4xl font-bold text-[#CE182A] mb-2">100+</div>
-                  <div className="text-sm text-[#9CA3AF]">Projects</div>
-                </div>
-                <div className="text-center">
-                  <div className="text-4xl font-bold text-[#CE182A] mb-2">50+</div>
-                  <div className="text-sm text-[#9CA3AF]">Clients</div>
-                </div>
-                <div className="text-center">
-                  <div className="text-4xl font-bold text-[#CE182A] mb-2">5+</div>
-                  <div className="text-sm text-[#9CA3AF]">Years</div>
-                </div>
-              </div>
-            </div>
-          </div>
+          ))}
         </div>
       </section>
 
-      {/* Built for Scale Section - Full Width Hero */}
-      <section className="relative py-32 px-6 lg:px-16 overflow-hidden">
-        {/* Background Pattern */}
-        <div className="absolute inset-0 opacity-5">
-          <div className="absolute inset-0" style={{
-            backgroundImage: 'radial-gradient(circle, #CE182A 1px, transparent 1px)',
-            backgroundSize: '50px 50px'
-          }} />
+      {/* Scale Section */}
+      <section className="relative py-32 px-6 lg:px-16 overflow-hidden bg-[#CE182A]">
+        <div className="absolute inset-0 overflow-hidden">
+          <div className="absolute -top-1/2 -right-1/2 w-[1000px] h-[1000px] border-[100px] border-white/10 rounded-full"></div>
+          <div className="absolute -bottom-1/2 -left-1/2 w-[800px] h-[800px] border-[50px] border-white/5 rounded-full"></div>
         </div>
 
-        <div className="max-w-7xl mx-auto relative z-10">
-          <div className="max-w-4xl mx-auto text-center space-y-12">
-            <h2 className="text-5xl lg:text-7xl font-bold text-white leading-tight">
-              Built for <span className="text-[#CE182A]">scale</span>.
-              <br />
-              Designed for clarity.
-            </h2>
-
-            <div className="space-y-6 text-[#9CA3AF] text-xl leading-relaxed max-w-3xl mx-auto">
-              <p>
-                We engineer attention systems that are designed to scale with your business — not against it.
-              </p>
-              <p>
-                Every strategy, content piece, and campaign is built with clarity at its core: clear goals, clear metrics, clear growth.
-              </p>
-              <p className="text-white font-semibold">
-                No fluff. No vanity metrics. Just systems that compound results over time.
-              </p>
-            </div>
-
-            {/* CTA Buttons */}
-            <div className="flex flex-wrap justify-center gap-6 pt-8">
-              <a
-                href="/contact"
-                className="bg-[#CE182A] text-white px-12 py-5 rounded-full font-bold text-lg hover:bg-[#a51422] transition-all duration-300 shadow-2xl hover:shadow-[#CE182A]/50 hover:scale-105 transform"
-              >
-                Let's Build Together
-              </a>
-              <a
-                href="/services"
-                className="bg-white/10 backdrop-blur-sm border-2 border-white/20 text-white px-12 py-5 rounded-full font-bold text-lg hover:bg-white/20 transition-all duration-300"
-              >
-                Explore Services
-              </a>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* Final CTA Section */}
-      <section className="relative py-20 px-6 lg:px-16 bg-gradient-to-r from-[#CE182A] to-[#a51422]">
-        <div className="max-w-7xl mx-auto text-center">
-          <h3 className="text-4xl lg:text-6xl font-bold text-white mb-6">
-            Ready to Engineer Attention?
-          </h3>
-          <p className="text-xl text-white/90 mb-8 max-w-2xl mx-auto leading-relaxed">
-            Let's design a scalable growth infrastructure for your brand. No fluff, just results.
+        <div className="max-w-4xl mx-auto text-center relative z-10">
+          <h2 className="text-5xl lg:text-7xl font-bold text-white mb-8 tracking-tight">
+            Built for <span className="text-black">Scale</span>.
+          </h2>
+          <p className="text-xl lg:text-2xl text-white/90 leading-relaxed mb-12">
+            "We don't build needed services. We build necessary infrastructure."
           </p>
-          <a
-            href="/contact"
-            className="inline-block bg-white text-[#CE182A] px-12 py-5 rounded-full font-bold text-lg hover:bg-gray-100 transition-all duration-300 shadow-2xl hover:shadow-white/50 hover:scale-105 transform"
-          >
-            Start Your Journey →
-          </a>
+          <div className="flex flex-col sm:flex-row gap-4 justify-center">
+            <a href="/contact" className="bg-black text-white px-10 py-5 rounded-full font-bold hover:bg-gray-900 transition-all shadow-xl hover:shadow-2xl hover:-translate-y-1">
+              Start Scaling
+            </a>
+          </div>
         </div>
       </section>
+
     </main>
   );
 }

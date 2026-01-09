@@ -8,7 +8,7 @@ export async function GET() {
   try {
     await connectDB();
 
-    const users = await User.find({role:"user"}).sort({ createdAt: -1 });
+    const users = await User.find({}).sort({ createdAt: -1 });
 
     const formattedUsers = users.map((user) => ({
       id: user._id,

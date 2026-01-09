@@ -44,6 +44,18 @@ function Footer() {
           </div>
 
           <div className="lg:col-span-2">
+            <h4 className="font-semibold text-lg mb-6 text-black">Account</h4>
+            <ul className="space-y-4 text-black/60">
+              <li>
+                <Link href="/login" className="hover:text-black transition-colors">Login</Link>
+              </li>
+              <li>
+                <Link href="/register" className="hover:text-black transition-colors">Register</Link>
+              </li>
+            </ul>
+          </div>
+
+          <div className="lg:col-span-2">
             <h4 className="font-semibold text-lg mb-6 text-black">Services</h4>
             <ul className="space-y-4 text-black/60">
               {['Branding', 'Web Design', 'Social Media', 'Content'].map((item) => (

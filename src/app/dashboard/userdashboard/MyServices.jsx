@@ -79,9 +79,7 @@ export default function MyServices() {
     const fetchApplications = async () => {
         try {
             setLoading(true);
-            // TODO: Replace with actual userId from session
-            const userId = "temp_user_id";
-            const response = await axios.get(`/api/service-applications?userId=${userId}`);
+            const response = await axios.get('/api/service-applications');
             if (response.data.success) {
                 setApplications(response.data.applications);
             }

@@ -2,27 +2,25 @@ import { NextResponse } from "next/server";
 import { connectDB } from "@/app/lib/db";
 import { ServiceApplication } from "@/app/models/ServiceApplication.model";
 import { getServerSession } from "next-auth";
+import { authoptions } from "@/app/lib/auth";
 
 // GET - Fetch current user's service applications
 export async function GET(request) {
     try {
         await connectDB();
 
-        // Get user session (you'll need to implement authentication)
-        // For now, we'll add a userId query parameter
-        const { searchParams } = new URL(request.url);
-        const userId = searchParams.get("userId");
+        const session = await getServerSession(authoptions);
 
-        if (!userId) {
+        if (!session || !session.user) {
             return NextResponse.json(
-                { success: false, message: "User ID is required" },
-                { status: 400 }
+                { success: false, message: "Unauthorized. Please login." },
+                { status: 401 }
             );
         }
 
-        const applications = await ServiceApplication.find({ userId })
-            .populate("serviceId", "title description category image")
-            .populate("userId", "email")
+        const applications = await ServiceApplication.find({ userId: session.user.id })
+            .populate("serviceId", "title description category image price")
+            .populate("userId", "email name")
             .sort({ createdAt: -1 });
 
         return NextResponse.json({
@@ -43,9 +41,17 @@ export async function POST(request) {
     try {
         await connectDB();
 
+        const session = await getServerSession(authoptions);
+
+        if (!session || !session.user) {
+            return NextResponse.json(
+                { success: false, message: "Unauthorized. Please login to apply." },
+                { status: 401 }
+            );
+        }
+
         const body = await request.json();
         const {
-            userId,
             serviceId,
             fullName,
             email,
@@ -58,7 +64,7 @@ export async function POST(request) {
         } = body;
 
         // Validate required fields
-        if (!userId || !serviceId || !fullName || !email || !phone || !projectDescription) {
+        if (!serviceId || !fullName || !email || !phone || !projectDescription) {
             return NextResponse.json(
                 { success: false, message: "Please fill all required fields" },
                 { status: 400 }
@@ -66,7 +72,7 @@ export async function POST(request) {
         }
 
         const newApplication = await ServiceApplication.create({
-            userId,
+            userId: session.user.id,
             serviceId,
             fullName,
             email,
@@ -84,7 +90,7 @@ export async function POST(request) {
 
         return NextResponse.json({
             success: true,
-            message: "Application submitted successfully",
+            message: "Application submitted successfully! We'll get back to you soon.",
             application: newApplication,
         }, { status: 201 });
     } catch (error) {

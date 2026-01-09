@@ -19,16 +19,48 @@ function Careers() {
         "Work with strategists, designers, creators, and thinkers who believe in growing together and learning every day.",
     },
     {
-      title: "AT",
+      title: "AT D2D",
       description:
         "We push boundaries, question the obvious, and constantly challenge ourselves to do better work.",
     },
     {
-      title: "D2D",
+      title: "SOCIAL STUDIO",
       description:
         "From big wins to small milestones, we celebrate effort, growth, and individuality.",
     },
   ];
+
+  const jobOpenings = [
+    {
+      id: 1,
+      title: "Associate Brand Solutions Manager",
+      experience: "1–2 years",
+      type: "Permanent",
+      department: "Brand Solutions",
+    },
+    {
+      id: 2,
+      title: "Senior Social Media Strategist",
+      experience: "3–5 years",
+      type: "Full Time",
+      department: "Social Media",
+    },
+    {
+      id: 3,
+      title: "Creative Copywriter",
+      experience: "2–4 years",
+      type: "Contract",
+      department: "Creative",
+    },
+    {
+      id: 4,
+      title: "Performance Marketing Executive",
+      experience: "1–3 years",
+      type: "Full Time",
+      department: "Growth & Performance",
+    },
+  ];
+
   return (
     <>
       <section className="bg-[#e1bb08] px-4 sm:px-6 md:px-12 py-20 md:py-32">
@@ -77,31 +109,39 @@ function Careers() {
       </section>
 
       {/* ================= CURRENT OPENINGS ================= */}
+      {/* ================= CURRENT OPENINGS ================= */}
       <section className="bg-white py-24">
         <div className="max-w-6xl mx-auto px-6">
           <h2 className="text-4xl font-bold text-center mb-12">
             Current Openings
           </h2>
 
-          {/* JOB ITEM */}
-          <div className="border-b py-6 flex justify-between items-center">
-            <div>
-              <h3 className="text-xl font-semibold">
-                Associate Brand Solutions Manager (1–2 years)
-              </h3>
-              <p className="text-gray-600">Permanent • Brand Solutions</p>
-            </div>
+          <div className="space-y-6">
+            {jobOpenings.map((job) => (
+              <div
+                key={job.id}
+                className="border-b py-6 flex flex-col md:flex-row md:justify-between md:items-center gap-4"
+              >
+                <div>
+                  <h3 className="text-xl font-semibold">
+                    {job.title} ({job.experience})
+                  </h3>
+                  <p className="text-gray-600">
+                    {job.type} • {job.department}
+                  </p>
+                </div>
 
-            <button
-              onClick={() => setOpenJob(true)}
-              className="bg-[#e1bb08] px-6 py-2 rounded-full font-medium hover:bg-black hover:text-white transition"
-            >
-              View Details →
-            </button>
+                <button
+                  onClick={() => setOpenJob(true)}
+                  className="bg-[#e1bb08] px-6 py-2 rounded-full font-medium hover:bg-black hover:text-white transition w-fit"
+                >
+                  View Details →
+                </button>
+              </div>
+            ))}
           </div>
         </div>
       </section>
-
       {/* ================= MODAL ================= */}
       {openJob && <JobDetailsModal onClose={() => setOpenJob(false)} />}
     </>

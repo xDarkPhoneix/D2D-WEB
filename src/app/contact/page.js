@@ -51,7 +51,7 @@ export default function ContactPage() {
 
         {/* Form Overlay Card - Left Side */}
         <div className="absolute left-0 top-0 bottom-0 w-full max-w-[600px] flex items-center p-8 z-10">
-          <div className="bg-[#CE182A] p-10 w-full shadow-2xl animate-slide-in-left">
+          <div className="bg-black p-10 w-full shadow-2xl animate-slide-in-left border-l-4 border-[#F8D200]">
             <h1 className="text-3xl lg:text-4xl font-bold text-white mb-6 leading-tight">
               Aapke Ek Ek Sawal<br />
               Humaare Do Do Jawab
@@ -99,8 +99,8 @@ export default function ContactPage() {
               className={`w-[70px] h-[70px] rounded-full flex items-center justify-center text-sm font-bold
                 transition-all duration-300 border-4 border-white shadow-lg
                 ${selectedOffice === office.id
-                  ? 'bg-[#CE182A] text-white scale-110 shadow-2xl'
-                  : 'bg-white text-[#CE182A] hover:scale-105'
+                  ? 'bg-[#F8D200] text-black scale-110 shadow-2xl'
+                  : 'bg-white text-black hover:scale-105 hover:bg-[#F8D200]'
                 }`}
             >
               {office.name}
@@ -115,10 +115,10 @@ export default function ContactPage() {
             top: `calc(50% - ${(2 - offices.findIndex(o => o.id === selectedOffice)) * 96}px - 60px)`
           }}
         >
-          <div className="bg-[#CE182A] text-white p-6 min-w-[350px] max-w-[450px] shadow-2xl border-2 border-white">
+          <div className="bg-black text-white p-6 min-w-[350px] max-w-[450px] shadow-2xl border-2 border-[#F8D200]">
             <div className="flex items-start justify-between mb-3">
               <h3 className="text-xl font-bold">{activeOffice.city}</h3>
-              <div className="w-12 h-12 rounded-full bg-white border-2 border-white flex items-center justify-center text-[#CE182A] font-bold text-sm shadow-lg">
+              <div className="w-12 h-12 rounded-full bg-[#F8D200] border-2 border-[#F8D200] flex items-center justify-center text-black font-bold text-sm shadow-lg">
                 {activeOffice.name}
               </div>
             </div>
@@ -135,9 +135,9 @@ export default function ContactPage() {
           {offices.map((office) => (
             <div
               key={office.id}
-              className="bg-gray-50 p-8 rounded-xl border-l-4 border-[#CE182A] hover:-translate-y-2 transition-transform duration-300 shadow-sm hover:shadow-lg"
+              className="bg-gray-50 p-8 rounded-xl border-l-4 border-[#F8D200] hover:-translate-y-2 transition-transform duration-300 shadow-sm hover:shadow-lg"
             >
-              <h3 className="text-2xl font-bold text-[#CE182A] mb-4">{office.name}</h3>
+              <h3 className="text-2xl font-bold text-black mb-4">{office.name}</h3>
               <p className="text-base leading-relaxed text-gray-700">{office.address}</p>
             </div>
           ))}
@@ -145,8 +145,8 @@ export default function ContactPage() {
       </section>
 
       {/* Footer Message */}
-      <section className="bg-gradient-to-r from-[#CE182A] to-[#a51422] py-10 px-8 text-center">
-        <p className="text-white text-lg leading-relaxed max-w-3xl mx-auto">
+      <section className="gradient-yellow py-10 px-8 text-center">
+        <p className="text-black text-lg leading-relaxed max-w-3xl mx-auto font-semibold">
           🎉 Congratulations for traveling from start to the end of this page! We'll add 10,000 steps to your fitness tracker!
         </p>
       </section>

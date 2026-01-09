@@ -4,10 +4,10 @@ import bcrypt from "bcrypt"
 
 export async function POST(request) {
   try {
-    const { email, password , role} = await request.json();
+    const { email, password , role ,name} = await request.json();
      var isVerified=false
     
-    if (!email || !password || !role) {
+    if (!email || !password || !role || !name) {
       return Response.json({ error: "Email or password missing" }, { status: 400 });
     }
 
@@ -24,7 +24,7 @@ export async function POST(request) {
       return Response.json({ error: "User already exists" }, { status: 400 });
     }
 
-    await User.create({ email, password:hashedpas,role,isVerified });
+    await User.create({name, email, password:hashedpas,role,isVerified });
 
     return Response.json({ message: `${role} requested for verification` }, { status: 201 });
   } catch (error) {

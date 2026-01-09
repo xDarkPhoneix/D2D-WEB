@@ -81,7 +81,7 @@ export default function Users() {
             Users Management
           </h1>
           <p className="text-gray-600">
-            Total users: {users.length}
+            Total users: {users?.length}
           </p>
         </div>
       </div>
@@ -116,15 +116,15 @@ export default function Users() {
               ]}
             >
               {filteredUsers.map((user) => (
-                <TableRow key={user.id}>
+                <TableRow key={user._id}>
                   <TableCell>
                     <div className="flex items-center gap-3">
                       <div className="w-10 h-10 bg-gradient-to-br from-yellow-400 to-yellow-500 rounded-full flex items-center justify-center">
                         <span className="text-black font-bold text-sm">
-                          {user.name.charAt(0)}
+                          {user?.name?.charAt(0)}
                         </span>
                       </div>
-                      <span className="font-semibold">{user.name}</span>
+                      <span className="font-semibold">{user?.name}</span>
                     </div>
                   </TableCell>
 
@@ -138,7 +138,7 @@ export default function Users() {
                     <Badge
                       variant={user?.status === "active" ? "success" : "danger"}
                     >
-                      {user.status}
+                      {"active"}
                     </Badge>
                   </TableCell>
 

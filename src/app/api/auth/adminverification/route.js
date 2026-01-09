@@ -10,7 +10,7 @@ export async function POST(req) {
   
 
   // 🔐 Only superadmin allowed
-  if (!token || token.role !== "superadmin") {
+  if (!token || token.role !== "admin") {
     return NextResponse.json(
       { error: "Unauthorized" },
       { status: 403 }
@@ -18,6 +18,8 @@ export async function POST(req) {
   }
 
   const { adminId } = await req.json();
+  console.log(adminId);
+  
   await connectDB();
 
   const admin = await User.findById(adminId);
@@ -29,7 +31,7 @@ export async function POST(req) {
   }
 
   admin.isVerified = true;
-  admin.verifiedBy = token.id;
+  admin.verifiedBy = token._id;
   admin.verifiedAt = new Date();
 
   await admin.save();

@@ -10,7 +10,7 @@ export async function GET(req, { params }) {
   if (authError) return authError;
 
   try {
-    const { id } = params;
+    const { id } = await params;
 
     if (!mongoose.Types.ObjectId.isValid(id)) {
       return NextResponse.json(
