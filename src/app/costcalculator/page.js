@@ -1,5 +1,5 @@
 "use client"
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Calculator, CheckCircle2, TrendingUp, Target, Award } from 'lucide-react';
 import CalculatorInputs from './components/CalculatorInputs';
 import CalculatorResults from './components/CalculatorResults';
@@ -12,22 +12,48 @@ import ProposalModal from './components/ProposalModal';
 
 const CostCalculator = () => {
   const [calculatorData, setCalculatorData] = useState({
-    businessType: '',
-    industry: '',
-    monthlyGoal: '',
     services: [],
+    quantities: {}, // { serviceName: quantity }
     cityTier: 'tier-1',
   });
 
+  const [services, setServices] = useState([]);
+  const [pricingRule, setPricingRule] = useState(null);
+  const [loading, setLoading] = useState(true);
   const [showResults, setShowResults] = useState(false);
   const [showSaveModal, setShowSaveModal] = useState(false);
   const [showProposalModal, setShowProposalModal] = useState(false);
 
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const [servicesRes, pricingRes] = await Promise.all([
+          fetch('/api/services'),
+          fetch('/api/admin/pricing/rules?active=true')
+        ]);
+
+        const servicesData = await servicesRes.json();
+        const pricingData = await pricingRes.json();
+
+        if (servicesData.success) {
+          setServices(servicesData.services);
+        }
+
+        if (pricingData.success && pricingData.data) {
+          setPricingRule(pricingData.data);
+        }
+      } catch (error) {
+        console.error('Error fetching data:', error);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchData();
+  }, []);
+
   const handleCalculate = () => {
     if (
-      calculatorData.businessType &&
-      calculatorData.industry &&
-      calculatorData.monthlyGoal &&
       calculatorData.services.length > 0
     ) {
       setShowResults(true);
@@ -36,14 +62,20 @@ const CostCalculator = () => {
 
   const handleReset = () => {
     setCalculatorData({
-      businessType: '',
-      industry: '',
-      monthlyGoal: '',
       services: [],
+      quantities: {},
       cityTier: 'tier-1',
     });
     setShowResults(false);
   };
+
+  if (loading) {
+    return (
+      <div className="min-h-screen flex items-center justify-center bg-gray-50">
+        <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600"></div>
+      </div>
+    );
+  }
 
   return (
     <section className="py-20 bg-gradient-to-br from-slate-50 via-white to-blue-50">
@@ -91,6 +123,8 @@ const CostCalculator = () => {
               onChange={setCalculatorData}
               onCalculate={handleCalculate}
               onReset={handleReset}
+              services={services}
+              pricingRule={pricingRule}
             />
 
             {showResults && (
@@ -98,6 +132,8 @@ const CostCalculator = () => {
                 data={calculatorData}
                 onSavePlan={() => setShowSaveModal(true)}
                 onConvertToProposal={() => setShowProposalModal(true)}
+                services={services}
+                pricingRule={pricingRule}
               />
             )}
           </div>

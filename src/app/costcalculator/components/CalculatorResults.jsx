@@ -1,82 +1,75 @@
 import { DollarSign, TrendingUp, FileText, Bookmark } from 'lucide-react';
 
-const servicePricing = {
-  reels: 25000,
-  'paid-ads': 30000,
-  seo: 20000,
-  website: 50000,
-  'offline-shoot': 15000,
-  podcast: 35000,
-};
-
-const goalMultipliers = {
-  awareness: 1.0,
-  leads: 1.15,
-  sales: 1.3,
-  authority: 1.2,
-};
-
-const cityTierMultipliers = {
-  'tier-1': 1.5,
-  'tier-2': 1.2,
-  'tier-3': 1.0,
-};
-
-const packageTiers = [
-  { name: 'Presence', range: [0, 50000], color: 'bg-green-500' },
-  { name: 'Growth', range: [50001, 100000], color: 'bg-blue-500' },
-  { name: 'Dominance', range: [100001, 200000], color: 'bg-purple-500' },
-  { name: 'Custom', range: [200001, Infinity], color: 'bg-orange-500' },
-];
-
-const CalculatorResults = ({ data, onSavePlan, onConvertToProposal }) => {
+const CalculatorResults = ({ data, onSavePlan, onConvertToProposal, services, pricingRule }) => {
   const calculateCosts = () => {
     let baseTotal = 0;
     const serviceBreakdown = [];
 
-    data.services.forEach((service) => {
-      const baseCost = servicePricing[service] || 0;
-      let serviceCost = baseCost;
+    data.services.forEach((serviceName) => {
+      // Find service in pricingRule
+      const serviceData = pricingRule?.services?.find(s => s.serviceName === serviceName);
+      if (!serviceData) return;
 
-      if (service === 'offline-shoot') {
-        serviceCost = baseCost * cityTierMultipliers[data.cityTier];
+      const quantity = data.quantities?.[serviceName] || 1;
+
+      // Calculate: basePrice + (quantity * unitPrice)
+      let serviceCost = serviceData.basePrice + (quantity * serviceData.unitPrice);
+
+      // Offline shoot multiplier logic
+      if (serviceName.toLowerCase().includes('offline') || serviceName.toLowerCase().includes('shoot')) {
+        const multiplier = pricingRule?.cityMultipliers?.[data.cityTier] || 1.0;
+        serviceCost = serviceCost * multiplier;
       }
 
       serviceBreakdown.push({
-        name: service,
+        name: serviceName,
         cost: serviceCost,
+        quantity: quantity,
+        unit: serviceData.unit
       });
 
       baseTotal += serviceCost;
     });
 
-    const goalMultiplier = goalMultipliers[data.monthlyGoal] || 1.0;
-    const finalTotal = Math.round(baseTotal * goalMultiplier);
+    const finalTotal = Math.round(baseTotal);
 
-    const reelsService = serviceBreakdown.find((s) => s.name === 'reels');
-    const reelsPerMonth = 12;
-    const costPerReel = reelsService
-      ? Math.round(reelsService.cost / reelsPerMonth)
+    const reelsService = serviceBreakdown.find((s) => s.name.toLowerCase().includes('reel'));
+    const costPerReel = reelsService?.quantity > 0
+      ? Math.round(reelsService.cost / reelsService.quantity)
       : 0;
 
     const offlineShootService = serviceBreakdown.find(
-      (s) => s.name === 'offline-shoot'
+      (s) => s.name.toLowerCase().includes('offline') || s.name.toLowerCase().includes('shoot')
     );
 
-    const recommendedPackage =
-      packageTiers.find(
-        (tier) =>
-          finalTotal >= tier.range[0] && finalTotal <= tier.range[1]
-      ) || packageTiers[packageTiers.length - 1];
+    // Dynamic Package Recommendation
+    // Sort packages by price
+    const packages = pricingRule?.packages?.slice().sort((a, b) => a.monthlyPrice - b.monthlyPrice) || [];
+
+    // Find a package that is close to the final total
+    // Default to the highest package if total exceeds all, or 'Custom'
+    let recommendedPackage = packages.find(p => p.monthlyPrice >= finalTotal);
+
+    if (!recommendedPackage) {
+      // If total is higher than all packages, suggest Custom or the highest tier
+      recommendedPackage = { name: 'Custom', monthlyPrice: finalTotal, color: 'bg-orange-500' };
+    } else {
+      // Add color property for UI consistency
+      const index = packages.indexOf(recommendedPackage);
+      const colors = ['bg-green-500', 'bg-blue-500', 'bg-purple-500', 'bg-orange-500'];
+      recommendedPackage = {
+        ...recommendedPackage,
+        name: recommendedPackage.packageName,
+        color: colors[index % colors.length]
+      };
+    }
 
     return {
       finalTotal,
       serviceBreakdown,
-      reelsPerMonth,
       costPerReel,
       offlineShootCost: offlineShootService?.cost || 0,
       recommendedPackage,
-      goalMultiplier,
     };
   };
 
@@ -90,15 +83,8 @@ const CalculatorResults = ({ data, onSavePlan, onConvertToProposal }) => {
     }).format(amount);
 
   const getServiceName = (serviceKey) => {
-    const names = {
-      reels: 'Reels / Short-form Content',
-      'paid-ads': 'Paid Ads Management',
-      seo: 'SEO & Content Marketing',
-      website: 'Website / Landing Page',
-      'offline-shoot': 'Offline Shoot',
-      podcast: 'Podcast Production',
-    };
-    return names[serviceKey] || serviceKey;
+    // In dynamic mode, serviceKey IS the service name
+    return serviceKey;
   };
 
   return (
@@ -125,9 +111,8 @@ const CalculatorResults = ({ data, onSavePlan, onConvertToProposal }) => {
           {formatCurrency(results.finalTotal)}
         </div>
         <div className="text-blue-100 text-sm">
-          Based on {data.services.length} service
-          {data.services.length > 1 ? 's' : ''} with{' '}
-          {data.monthlyGoal.replace('-', ' ')} focus
+          Based on {data.services.length} selected service
+          {data.services.length > 1 ? 's' : ''}
         </div>
       </div>
 
@@ -142,9 +127,16 @@ const CalculatorResults = ({ data, onSavePlan, onConvertToProposal }) => {
               key={index}
               className="flex items-center justify-between p-4 bg-white rounded-lg shadow-sm"
             >
-              <span className="font-medium text-gray-700">
-                {getServiceName(service.name)}
-              </span>
+              <div>
+                <div className="font-medium text-gray-900">
+                  {getServiceName(service.name)}
+                </div>
+                {service.quantity > 1 && (
+                  <div className="text-sm text-gray-600">
+                    {service.quantity} {service.unit?.replace('per ', '') || 'units'}
+                  </div>
+                )}
+              </div>
               <span className="font-bold text-gray-900">
                 {formatCurrency(service.cost)}
               </span>
@@ -154,7 +146,7 @@ const CalculatorResults = ({ data, onSavePlan, onConvertToProposal }) => {
       </div>
 
       {/* Reels Breakdown */}
-      {data.services.includes('reels') && (
+      {data.services.some(s => s.toLowerCase().includes('reel')) && (
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
           <div className="bg-purple-50 border-2 border-purple-200 rounded-xl p-6">
             <div className="text-sm text-purple-700 font-semibold mb-1">
@@ -166,17 +158,17 @@ const CalculatorResults = ({ data, onSavePlan, onConvertToProposal }) => {
           </div>
           <div className="bg-purple-50 border-2 border-purple-200 rounded-xl p-6">
             <div className="text-sm text-purple-700 font-semibold mb-1">
-              Reels Per Month
+              Total Reels
             </div>
             <div className="text-3xl font-bold text-purple-900">
-              {results.reelsPerMonth}
+              {results.serviceBreakdown.find(s => s.name.toLowerCase().includes('reel'))?.quantity || 0}
             </div>
           </div>
         </div>
       )}
 
       {/* Offline Shoot */}
-      {data.services.includes('offline-shoot') && (
+      {data.services.some(s => s.toLowerCase().includes('offline') || s.toLowerCase().includes('shoot')) && (
         <div className="bg-orange-50 border-2 border-orange-200 rounded-xl p-6">
           <h3 className="text-lg font-bold text-orange-900 mb-3">
             Offline Shoot Details
@@ -184,13 +176,13 @@ const CalculatorResults = ({ data, onSavePlan, onConvertToProposal }) => {
           <div className="flex items-center justify-between">
             <div>
               <div className="text-sm text-orange-700 mb-1">
-                City Tier:{' '}
+                City:{' '}
                 <span className="font-semibold">
-                  {data.cityTier.toUpperCase()}
+                  {data.cityTier}
                 </span>
               </div>
               <div className="text-sm text-orange-600">
-                Multiplier: {cityTierMultipliers[data.cityTier]}x
+                Multiplier: {pricingRule?.cityMultipliers?.[data.cityTier] || '1.0'}x
               </div>
             </div>
             <div className="text-right">
@@ -216,8 +208,7 @@ const CalculatorResults = ({ data, onSavePlan, onConvertToProposal }) => {
           {results.recommendedPackage.name}
         </div>
         <p className="text-sm text-gray-300 mt-2">
-          Perfect for your {data.businessType.replace('-', ' ')} in the{' '}
-          {data.industry.replace('-', ' ')} industry
+          Perfect for your marketing needs
         </p>
       </div>
 

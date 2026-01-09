@@ -27,12 +27,12 @@ export default function CalculatorManagement() {
                     ruleName: 'Default Pricing Rule',
                     services: [],
                     packages: [],
-                    cityMultipliers: new Map([
-                        ['Delhi', 1.2],
-                        ['Mumbai', 1.5],
-                        ['Bangalore', 1.3],
-                        ['Other', 1.0]
-                    ]),
+                    cityMultipliers: { // Use Object instead of Map for consistency with API
+                        'Delhi': 1.2,
+                        'Mumbai': 1.5,
+                        'Bangalore': 1.3,
+                        'Other': 1.0
+                    },
                     offlineShootBase: 5000,
                     offlineShootPerDay: 10000,
                     discounts: [],
@@ -165,32 +165,83 @@ export default function CalculatorManagement() {
 
             {/* City Multipliers */}
             <Card className="p-6">
-                <h2 className="text-xl font-bold text-gray-900 mb-4">
-                    City Multipliers
-                </h2>
-                <div className="grid grid-cols-3 gap-4">
-                    {pricingRule?.cityMultipliers && Array.from(pricingRule.cityMultipliers).map(([city, multiplier]) => (
-                        <div key={city} className="p-4 bg-gray-50 rounded-lg">
-                            <div className="text-sm text-gray-600">{city}</div>
-                            {editMode ? (
-                                <input
-                                    type="number"
-                                    step="0.1"
-                                    value={multiplier}
-                                    onChange={(e) => {
-                                        const newMultipliers = new Map(pricingRule.cityMultipliers);
-                                        newMultipliers.set(city, parseFloat(e.target.value) || 1.0);
-                                        setPricingRule({
-                                            ...pricingRule,
-                                            cityMultipliers: newMultipliers
-                                        });
+                <div className="flex items-center justify-between mb-4">
+                    <h2 className="text-xl font-bold text-gray-900">
+                        City Multipliers
+                    </h2>
+                    {editMode && (
+                        <Button variant="outline" onClick={() => {
+                            const newMultipliers = { ...pricingRule.cityMultipliers, '': 1.0 };
+                            setPricingRule({ ...pricingRule, cityMultipliers: newMultipliers });
+                        }}>
+                            <Plus className="w-4 h-4 mr-2" />
+                            Add City
+                        </Button>
+                    )}
+                </div>
+                <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+                    {pricingRule?.cityMultipliers && Object.entries(pricingRule.cityMultipliers).map(([city, multiplier], index) => (
+                        <div key={index} className="p-4 bg-gray-50 rounded-lg flex items-center justify-between group">
+                            <div className="flex-1">
+                                {editMode ? (
+                                    <div className="space-y-2">
+                                        <input
+                                            type="text"
+                                            placeholder="City Name"
+                                            value={city}
+                                            onChange={(e) => {
+                                                const newCity = e.target.value;
+                                                const newMultipliers = { ...pricingRule.cityMultipliers };
+                                                // If renaming, we need to delete old key and add new key, keeping value.
+                                                // Limitation: This simple key swap might lose focus or order if not careful.
+                                                // For a better UX, we might need an intermediate representation, but for now:
+                                                if (newCity !== city) {
+                                                    delete newMultipliers[city];
+                                                    newMultipliers[newCity] = multiplier;
+                                                    setPricingRule({
+                                                        ...pricingRule,
+                                                        cityMultipliers: newMultipliers
+                                                    });
+                                                }
+                                            }}
+                                            className="w-full px-2 py-1 border border-gray-300 rounded text-sm mb-1"
+                                        />
+                                        <input
+                                            type="number"
+                                            step="0.1"
+                                            value={multiplier}
+                                            onChange={(e) => {
+                                                setPricingRule({
+                                                    ...pricingRule,
+                                                    cityMultipliers: {
+                                                        ...pricingRule.cityMultipliers,
+                                                        [city]: parseFloat(e.target.value) || 1.0
+                                                    }
+                                                });
+                                            }}
+                                            className="w-full px-3 py-1 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-yellow-400"
+                                        />
+                                    </div>
+                                ) : (
+                                    <>
+                                        <div className="text-sm text-gray-600">{city}</div>
+                                        <div className="text-lg font-bold text-yellow-600">
+                                            {multiplier}x
+                                        </div>
+                                    </>
+                                )}
+                            </div>
+                            {editMode && (
+                                <button
+                                    onClick={() => {
+                                        const newMultipliers = { ...pricingRule.cityMultipliers };
+                                        delete newMultipliers[city];
+                                        setPricingRule({ ...pricingRule, cityMultipliers: newMultipliers });
                                     }}
-                                    className="mt-1 w-full px-3 py-1 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-yellow-400"
-                                />
-                            ) : (
-                                <div className="text-lg font-bold text-yellow-600">
-                                    {multiplier}x
-                                </div>
+                                    className="ml-2 p-2 text-red-500 hover:bg-red-50 rounded-full"
+                                >
+                                    <Trash2 className="w-4 h-4" />
+                                </button>
                             )}
                         </div>
                     ))}
@@ -283,25 +334,121 @@ export default function CalculatorManagement() {
 
             {/* Service Costs */}
             <Card className="p-6">
-                <h2 className="text-xl font-bold text-gray-900 mb-4">
-                    Service Costs
-                </h2>
+                <div className="flex items-center justify-between mb-4">
+                    <h2 className="text-xl font-bold text-gray-900">
+                        Service Costs
+                    </h2>
+                    {editMode && (
+                        <Button variant="outline" onClick={() => {
+                            setPricingRule({
+                                ...pricingRule,
+                                services: [
+                                    ...(pricingRule.services || []),
+                                    { serviceName: '', basePrice: 0, unitPrice: 0, unit: 'project' }
+                                ]
+                            });
+                        }}>
+                            <Plus className="w-4 h-4 mr-2" />
+                            Add Service
+                        </Button>
+                    )}
+                </div>
+
                 {pricingRule?.services && pricingRule.services.length > 0 ? (
-                    <div className="space-y-2">
+                    <div className="space-y-4">
                         {pricingRule.services.map((service, index) => (
-                            <div key={index} className="flex items-center justify-between p-3 bg-gray-50 rounded-lg">
-                                <div>
-                                    <div className="font-semibold text-gray-900">{service.serviceName}</div>
-                                    <div className="text-sm text-gray-600">
-                                        Base: ₹{service.basePrice} | Unit: ₹{service.unitPrice}/{service.unit}
+                            <div key={index} className="flex flex-col md:flex-row items-center justify-between p-4 bg-gray-50 rounded-lg gap-4">
+                                {editMode ? (
+                                    <div className="flex-1 grid grid-cols-1 md:grid-cols-4 gap-4 w-full">
+                                        <div className="col-span-1">
+                                            <label className="text-xs font-semibold text-gray-500">Service Name</label>
+                                            <input
+                                                type="text"
+                                                value={service.serviceName}
+                                                onChange={(e) => {
+                                                    const newServices = [...pricingRule.services];
+                                                    newServices[index] = { ...service, serviceName: e.target.value };
+                                                    setPricingRule({ ...pricingRule, services: newServices });
+                                                }}
+                                                className="w-full px-3 py-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-yellow-400"
+                                                placeholder="e.g. Reels"
+                                            />
+                                        </div>
+                                        <div className="col-span-1">
+                                            <label className="text-xs font-semibold text-gray-500">Base Price (₹)</label>
+                                            <input
+                                                type="number"
+                                                value={service.basePrice}
+                                                onChange={(e) => {
+                                                    const newServices = [...pricingRule.services];
+                                                    newServices[index] = { ...service, basePrice: parseInt(e.target.value) || 0 };
+                                                    setPricingRule({ ...pricingRule, services: newServices });
+                                                }}
+                                                className="w-full px-3 py-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-yellow-400"
+                                            />
+                                        </div>
+                                        <div className="col-span-1">
+                                            <label className="text-xs font-semibold text-gray-500">Unit Price (₹)</label>
+                                            <input
+                                                type="number"
+                                                value={service.unitPrice || 0}
+                                                onChange={(e) => {
+                                                    const newServices = [...pricingRule.services];
+                                                    newServices[index] = { ...service, unitPrice: parseInt(e.target.value) || 0 };
+                                                    setPricingRule({ ...pricingRule, services: newServices });
+                                                }}
+                                                className="w-full px-3 py-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-yellow-400"
+                                            />
+                                        </div>
+                                        <div className="col-span-1">
+                                            <label className="text-xs font-semibold text-gray-500">Unit</label>
+                                            <select
+                                                value={service.unit || 'project'}
+                                                onChange={(e) => {
+                                                    const newServices = [...pricingRule.services];
+                                                    newServices[index] = { ...service, unit: e.target.value };
+                                                    setPricingRule({ ...pricingRule, services: newServices });
+                                                }}
+                                                className="w-full px-3 py-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-yellow-400"
+                                            >
+                                                <option value="reel">Reel</option>
+                                                <option value="post">Post</option>
+                                                <option value="story">Story</option>
+                                                <option value="hour">Hour</option>
+                                                <option value="day">Day</option>
+                                                <option value="month">Month</option>
+                                                <option value="project">Project</option>
+                                            </select>
+                                        </div>
                                     </div>
-                                </div>
+                                ) : (
+                                    <div>
+                                        <div className="font-semibold text-gray-900">{service.serviceName}</div>
+                                        <div className="text-sm text-gray-600">
+                                            Base: ₹{service.basePrice} | Unit: ₹{service.unitPrice}/{service.unit}
+                                        </div>
+                                    </div>
+                                )}
+
+                                {editMode && (
+                                    <button
+                                        onClick={() => {
+                                            const newServices = pricingRule.services.filter((_, i) => i !== index);
+                                            setPricingRule({ ...pricingRule, services: newServices });
+                                        }}
+                                        className="p-2 text-red-500 hover:bg-red-50 rounded-full"
+                                    >
+                                        <Trash2 className="w-5 h-5" />
+                                    </button>
+                                )}
                             </div>
                         ))}
                     </div>
                 ) : (
                     <div className="text-center py-12 text-gray-500">
-                        No services configured. Services pricing will be available in advanced settings.
+                        {editMode
+                            ? "No services configured. Click 'Add Service' to start."
+                            : "No services configured."}
                     </div>
                 )}
             </Card>
