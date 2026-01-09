@@ -45,23 +45,41 @@ export default function ContactForm() {
         return Object.keys(newErrors).length === 0;
     };
 
-    const handleSubmit = (e) => {
+    const handleSubmit = async (e) => {
         e.preventDefault();
 
         if (validateForm()) {
-            console.log('Form submitted:', formData);
-            setSubmitted(true);
-
-            setTimeout(() => {
-                setFormData({
-                    name: '',
-                    email: '',
-                    phone: '',
-                    location: '',
-                    message: ''
+            try {
+                const response = await fetch('/api/contact', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify(formData),
                 });
-                setSubmitted(false);
-            }, 3000);
+
+                if (response.ok) {
+                    console.log('Form submitted:', formData);
+                    setSubmitted(true);
+
+                    setTimeout(() => {
+                        setFormData({
+                            name: '',
+                            email: '',
+                            phone: '',
+                            location: '',
+                            message: ''
+                        });
+                        setSubmitted(false);
+                    }, 3000);
+                } else {
+                    console.error('Failed to submit form');
+                    // Handle error (optional: show error message to user)
+                }
+            } catch (error) {
+                console.error('Error submitting form:', error);
+                // Handle error
+            }
         }
     };
 

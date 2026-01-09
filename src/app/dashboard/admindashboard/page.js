@@ -12,6 +12,7 @@ import Jobs from "./Jobs";
 import Applications from "./Applications";
 import CalculatorManagement from "./CalculatorManagement";
 import Admin from "./Admins";
+import ContactSubmissions from "./ContactSubmissions";
 import { useSession } from "next-auth/react";
 
 function admindashboard() {
@@ -45,6 +46,8 @@ function admindashboard() {
         return <CalculatorManagement />;
       case "admins":
         return session?.user?.role === "superadmin" ? <Admin /> : <Panel />;
+      case "contact-submissions":
+        return <ContactSubmissions />;
       default:
         return <Panel />;
     }

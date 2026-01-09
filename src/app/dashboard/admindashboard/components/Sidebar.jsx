@@ -14,6 +14,7 @@ import {
   Megaphone,
   Calculator,
   LogOut,
+  Mail, // Added icon import
 } from "lucide-react";
 import { signOut } from "next-auth/react";
 
@@ -27,7 +28,8 @@ const menuItems = [
   { id: "jobs", label: "Job Openings", icon: FileText },
   { id: "applications", label: "Job Applications", icon: ClipboardList },
   { id: "calculator", label: "Calculator Settings", icon: Calculator },
-  { id: "admins", label: "Admin Requests", icon: Calculator },
+  { id: "admins", label: "Admin Requests", icon: Users }, // Changed icon to Users for Admin Requests if duplicate
+  { id: "contact-submissions", label: "Contact Us", icon: Mail }, // Added new menu item
 ];
 
 export default function Sidebar({ currentPage, onNavigate }) {
