@@ -1,5 +1,7 @@
 const mongoose = require('mongoose');
 
+Mongoose.connect(process.env.MONGODB_URL);
+
 const pricingRuleSchema = new mongoose.Schema({
     ruleName: { type: String, required: true },
     isActive: { type: Boolean, default: false },
