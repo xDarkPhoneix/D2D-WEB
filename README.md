@@ -37,7 +37,7 @@ The project is structured for scalability, rapid development, and clean UI using
 
 
 //create a .env folder in root and add the below 
-MONGODB_UR
+MONGODB_URL
 NEXTAUTH_SECRET
 NEXTAUTH_URL
 GOOGLE_CLIENT_ID
