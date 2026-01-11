@@ -1,7 +1,8 @@
 import { NextResponse } from "next/server";
 
-import { Job } from "@/models/Job";
+
 import { connectDB } from "@/app/lib/db";
+import { Job } from "@/app/models/job.model";
 
 /* GET single job */
 export async function GET(req, { params }) {
